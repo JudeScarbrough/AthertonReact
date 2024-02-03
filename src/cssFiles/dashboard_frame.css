@@ -1,0 +1,51 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: 'Arial', sans-serif;
+}
+
+#navbar {
+    background-color: white;
+    width: 300px;
+    height: 100%;
+    position: fixed;
+    left: 0;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-sizing: border-box;
+    border-right: 1px solid #ddd; /* Adding a border line to the right side */
+}
+
+
+.nav-item {
+    width: 100%;
+    text-align: center;
+    padding: 20px;
+    border-bottom: 1px solid #ddd;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    box-sizing: border-box;
+}
+
+.nav-item:hover, .nav-item.active {
+    background-color: #e1e1e1;
+}
+
+#content {
+    margin-left: 300px;
+    height: 100%;
+    background-color: #f0f0f0; /* Changed from blue to a light grey */
+}
+
+#logoimg{
+    width: 200px;
+    margin: 20px 0px 20px 0px;
+}
+
+#line{
+    border-bottom: 1px solid #ddd;
+    width: 100%;
+}
