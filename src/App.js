@@ -1,33 +1,66 @@
+import { useState } from 'react';
+import { initializeApp } from 'firebase/app';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import './firebase.js'; 
+import { RenderDashboard } from './dashboard/dashboard.js'
+import { getUserData } from './database/database.js'
+import { GoogleLoginButton } from './setup/login.js'
+import { SettingsForm } from './setup/settings.js';
 
-import './App.css';
-
-import { DashboardFrame } from './dashboard_frame';
-
+const auth = getAuth();
 export default function App() {
-  function handleNavButtonClick(i){
-    alert(("button "+ i +" clicked"))
+  
+  
+
+  const [isSignedIn, setSignIn] = useState(null)
+  const [userData, setUserData] = useState(null)
+
+/* set sign in state based on if user is logged in or not */
+  onAuthStateChanged(auth, user => {
+    if (user) {
+      if(!isSignedIn){setSignIn(true)}
+      } else {setSignIn(false)}
+  });
+
+
+
+  const changeUserDataState = (newState) => {
+    setUserData(newState)
   }
 
 
 
+  
 
 
-  return (
 
-    <>
-    
-      <DashboardFrame navButtonClicked={(i) => handleNavButtonClick(i)}>
-        <h1>agh</h1>
-      </DashboardFrame>
 
-    </>
-  );
+
+  if (isSignedIn){
+
+
+/* data happened to change then update on re render */
+    getUserData().then(data => {
+      console.log(JSON.stringify(data))
+      if (!(JSON.stringify(userData) == JSON.stringify(data))){setUserData(data)}
+    }).catch(error => {console.error("Failed to get user data:", error)})
+
+
+    if (userData && userData["setup"] == "No"){
+      return <SettingsForm setUserDataState={changeUserDataState}></SettingsForm>
+    }
+
+    return <RenderDashboard></RenderDashboard>
+  } else {
+    return <GoogleLoginButton></GoogleLoginButton>
+  }
+
+  
 }
 
 
-function ButtonEle(props){
-  return (
-    <button onClick={props.onButtonClick}>{props.buttonIndex}</button>
-  )
-}
+
+
+
+
 

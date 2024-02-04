@@ -1,7 +1,7 @@
 
 
-import "./cssFiles/dashboard_frame.css"
-
+import "../cssFiles/dashboard_frame.css"
+import mainLogo from '../images/AthertonLogoblack-01.png'
 
 export function DashboardFrame(props){
     return (
@@ -10,8 +10,7 @@ export function DashboardFrame(props){
             <div id="navbar">
                 <img
                 id="logoimg"
-                src="../AthertonLogoblack-01.png"
-                style={{ display: "none" }}
+                src={mainLogo}
                 />
                 <div id="line" />
                 <div className="nav-item" onClick={() => props.navButtonClicked(1)}>
@@ -27,8 +26,17 @@ export function DashboardFrame(props){
                 Group Manager
                 </div>
             </div>
-            <div id="content">{props.children}</div>
+            <div id="content"><DisplayPage displayNum={props.displayNum}/></div>
         </>
     )
     
+}
+
+function DisplayPage(props){
+    return (
+
+        <>
+            <h1>{props.displayNum}</h1>
+        </>
+    )
 }
