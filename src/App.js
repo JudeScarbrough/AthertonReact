@@ -1,64 +1,60 @@
-import { useState } from 'react';
-import { initializeApp } from 'firebase/app';
+import { useState, useEffect } from 'react';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import './firebase.js'; 
-import { RenderDashboard } from './dashboard/dashboard.js'
-import { getUserData } from './database/database.js'
-import { GoogleLoginButton } from './setup/login.js'
+import './firebase.js';
+import { RenderDashboard } from './dashboard/dashboard.js';
+import { getUserData } from './database/database.js';
+import { GoogleLoginButton } from './setup/login.js';
 import { SettingsForm } from './setup/settings.js';
 
 const auth = getAuth();
 export default function App() {
-  
-  
+  const [isSignedIn, setSignIn] = useState(null);
+  const [userData, setUserData] = useState(null);
+  const [userDataFetched, setUserDataFetched] = useState(false);
+  const [loading, setLoading] = useState(true); // New state for loading
 
-  const [isSignedIn, setSignIn] = useState(null)
-  const [userData, setUserData] = useState(null)
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, user => {
+      if (user) {
+        if (!isSignedIn) { 
+          setSignIn(true);
+        }
+      } else {
+        setSignIn(false);
+      }
+      setLoading(false); // Set loading to false once we have a response
+    });
 
-/* set sign in state based on if user is logged in or not */
-  onAuthStateChanged(auth, user => {
-    if (user) {
-      if(!isSignedIn){setSignIn(true)}
-      } else {setSignIn(false)}
-  });
-
-
+    return () => unsubscribe(); // Cleanup subscription
+  }, [isSignedIn]);
 
   const changeUserDataState = (newState) => {
-    setUserData(newState)
+    setUserData(newState);
+  };
+
+  if (loading) {
+    return <div></div>; // Or any other loading indicator
   }
 
-
-
-  
-
-
-
-
-
-  if (isSignedIn){
-
-
-/* data happened to change then update on re render */
-    getUserData().then(data => {
-      console.log(JSON.stringify(data))
-      if (!(JSON.stringify(userData) == JSON.stringify(data))){setUserData(data)}
-    }).catch(error => {console.error("Failed to get user data:", error)})
-
-
-    if (userData && userData["setup"] == "No"){
-      return <SettingsForm setUserDataState={changeUserDataState}></SettingsForm>
+  if (isSignedIn) {
+    if (userDataFetched === false) {
+      getUserData().then(data => {
+        if (!(JSON.stringify(userData) === JSON.stringify(data))) {
+          setUserData(data);
+        }
+        setUserDataFetched(true);
+      }).catch(error => {console.error("Failed to get user data:", error)});
     }
 
-    return <RenderDashboard></RenderDashboard>
+    if (userData && userData["setup"] === "No" && userDataFetched) {
+      return <SettingsForm changeUserDataState={changeUserDataState} userData={userData}></SettingsForm>;
+    } else if (userData && userData["setup"] === "Yes") {
+      return <RenderDashboard userData={userData} changeUserDataState={changeUserDataState}></RenderDashboard>;
+    }
   } else {
-    return <GoogleLoginButton></GoogleLoginButton>
+    return <GoogleLoginButton></GoogleLoginButton>;
   }
-
-  
 }
-
-
 
 
 

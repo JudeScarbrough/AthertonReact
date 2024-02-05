@@ -2,8 +2,10 @@
 
 import "../cssFiles/dashboard_frame.css"
 import mainLogo from '../images/AthertonLogoblack-01.png'
+import settingsIcon from '../images/settings.jpg'
 
 export function DashboardFrame(props){
+
     return (
         <>
             <link rel="stylesheet" type="text/css" href="style.css" />
@@ -25,18 +27,17 @@ export function DashboardFrame(props){
                 <div className="nav-item" onClick={() => props.navButtonClicked(4)}>
                 Group Manager
                 </div>
+
+                <div id="navBottom" onClick={() => props.navButtonClicked(5)}>
+                    <h3 id="companyNameSettings">{props.userData["settings"][0]}</h3>
+
+                    <img src={settingsIcon} id="settingsButton" />
+                </div>
+
             </div>
-            <div id="content"><DisplayPage displayNum={props.displayNum}/></div>
+            <div id="content">{props.children}</div>
         </>
     )
     
 }
 
-function DisplayPage(props){
-    return (
-
-        <>
-            <h1>{props.displayNum}</h1>
-        </>
-    )
-}
