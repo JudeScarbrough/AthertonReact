@@ -1,0 +1,126 @@
+.userblock{
+    width: 100%;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    background-color: white;
+    margin: 20px;
+    display: flex;
+    vertical-align: middle;
+    align-items: center;
+    justify-content: space-evenly;
+    min-width: 700px;
+    border-radius: 5px;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.15);
+}
+
+.firstName, .lastName, .phoneNumber, .date, input[type="text"] {
+    text-align: center;
+    vertical-align: middle;
+    font-family: 'DM Sans', sans-serif; /* Ensure inputs match text styling */
+    font-size: 15px; /* Match the font size of other elements */
+    padding: 5px; /* Add some padding inside the inputs */
+    
+}
+
+input[type="text"]{
+    border: 1px solid rgba(0, 0, 0, 0.15); /* Match the style of the container */
+    border-radius: 5px; /* Optional: adds rounded corners to input fields */
+}
+
+.firstName{
+    width: 100px;
+}
+
+
+
+.lastName{
+    width: 200px;
+}
+
+.phoneNumber{
+    width: 110px;
+}
+
+.date{
+    width: 120px;
+    margin-left: 10px;
+}
+
+.bundleclose{
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.close-icon {
+    cursor: pointer;
+    color: #969696;
+    font-size: 18px;
+    margin-left: 5px;
+    margin-right: 10px;
+    vertical-align: middle;
+    text-align: left;
+}
+
+.groupblock, .addgroup{
+    font-size: 12px;
+    height: 20px;
+    background-color: #a1ccd1;
+    padding: 8px 12px;
+    text-align: center;
+    vertical-align: middle;
+    color: white;
+    border-radius: 3px;
+    display: flex;
+    align-items: center; /* Vertically aligns the text */
+    justify-content: center;
+
+}
+
+.addgroup{
+    font-size: 12px;
+    background-color: #0f83f7;
+    width: 62px;
+
+}
+
+.groupcontainer{
+    margin: 20px 10px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+
+
+    vertical-align: middle;
+}
+
+
+.edit, .delete, .confirm{
+    text-align: center;
+    background-color: #0f83f7;
+    color: white;
+    height: 36px;
+    width: 90px;
+    border-radius: 5px;
+    margin-right: 10px;
+    font-family: 'DM Sans', sans-serif;
+    border: none;
+    line-height: 0px;
+
+}
+
+.delete{
+    background-color: #f54940;
+    height: 25px;
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+.editstack{
+    display:flex;
+    flex-direction: column;
+}
+
+
+

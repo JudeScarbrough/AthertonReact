@@ -34,7 +34,7 @@ export function RenderDashboard(props){
 
 function DirectContent(props){
   if (props.currentPage == 1){
-    return <ClientManager></ClientManager>
+    return <ClientManager userData={props.userData}></ClientManager>
   } else if (props.currentPage == 2){
     return <DirectMessage></DirectMessage>
   } else if (props.currentPage == 3){

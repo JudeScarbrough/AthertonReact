@@ -1,0 +1,16 @@
+[
+    {
+        "firstName": "Jude",
+        "lastName": "Scarbrough",
+        "phoneNumber": 5126623667,
+        "date": "5:00 PM 10 Jan 2024",
+        "groups": ["Gru Group", "Group 2", "Gru Group 3"]
+    },
+    {
+        "firstName": "Juude",
+        "lastName": "Scaurbrough",
+        "phoneNumber": 5126623669,
+        "date": "5:60 PM 10 Jan 2024",
+        "groups": ["Gru Groupy", "Group 2y", "Gru Group 3y"]
+    }
+]
