@@ -1,73 +1,62 @@
 import React, { useState } from 'react';
 import "../../cssFiles/cm.css";
 import { setData } from '../../database/database';
-
+import searchIcon from '../../images/search.png'
 export function ClientManager(props) {
-  const initialClientData = JSON.parse(props.userData["clientData"]);
-  const [clientData, setClientData] = useState(initialClientData);
 
-  const handleEdit = (index) => {
-    const newClientData = clientData.map((client, idx) => {
-      if (idx === index) {
-        return { ...client, isEditing: !client.isEditing };
-      }
-      return client;
-    });
-    setClientData(newClientData);
-  };
 
-  const handleChange = (event, index, field) => {
-    const newClientData = [...clientData];
-    newClientData[index][field] = event.target.value;
-    setClientData(newClientData);
-  };
 
-  const handleConfirm = (index) => {
-    handleEdit(index); // Toggle off edit mode
-    // Here, implement your logic to update the userData with the new clientData
-    const updatedUserData = { ...props.userData, clientData: JSON.stringify(clientData) };
-    setData(updatedUserData); // Assuming setData takes the whole userData object
-  };
+  return(<>
 
-  return (
-    <div>
-      {clientData.map((client, index) => (
-        <div key={index} className="userblock">
-          {client.isEditing ? (
-            <>
-              <input className="firstName" value={client.firstName} onChange={(e) => handleChange(e, index, 'firstName')} />
-              <input className="lastName" value={client.lastName} onChange={(e) => handleChange(e, index, 'lastName')} />
-              <input className="phoneNumber" value={client.phoneNumber} onChange={(e) => handleChange(e, index, 'phoneNumber')} />
-              <input className="date" value={client.date} onChange={(e) => handleChange(e, index, 'date')} />
-            </>
-          ) : (
-            <>
-              <h3 className="firstName">{client.firstName}</h3>
-              <h3 className="lastName">{client.lastName}</h3>
-              <h3 className="phoneNumber">{client.phoneNumber}</h3>
-              <h3 className="date">{client.date}</h3>
-            </>
-          )}
-          <div className="groupcontainer">
-            {/* Group editing not handled in this snippet, add similar logic if needed */}
-            {client.groups.map((group, groupIndex) => (
-              <div key={groupIndex} className="bundleclose">
-                <div className="groupblock">{group}</div>
-                <i className="fas fa-times close-icon"></i>
-              </div>
-            ))}
-            <div className="addgroup">Add Group</div>
-          </div>
-          <div className="editstack">
-            {client.isEditing ? (
-              <button className="confirm" onClick={() => handleConfirm(index)}>Confirm</button>
-            ) : (
-              <button className="edit" onClick={() => handleEdit(index)}>Edit</button>
-            )}
-            <button className="delete">Delete</button>
-          </div>
-        </div>
-      ))}
+    <div class="cm-top-headers">
+      <div id="cm-toggle-add-client">Add Client</div>
+      <div id="cm-search"><h1>Search</h1><img id='cm-search-icon' src={searchIcon} /></div>
     </div>
-  );
+
+    <div className="userblock" id="addClientBlock">
+      <input type="text" className="firstName" placeholder="First Name"/>
+      <input type="text" className="lastName" placeholder="Last Name"/>
+      <input type="text" className="phoneNumber" placeholder="Phone Number"/>
+      <input type="text" className="date" placeholder="Date"/>
+      
+      <div className="groupcontainer">
+        <div className="addgroup">Add Group</div>
+      </div>
+      <div className="editstack">
+        <button className="addClient">Add Client</button>
+      </div>
+    </div>
+
+
+
+    <div className="userblock">
+      <h3 className="firstName">Jude</h3>
+      <h3 className="lastName">Scarbrough</h3>
+      <h3 className="phoneNumber">5126623667</h3>
+      <h3 className="date">16 Jan 2024<br/>4:00 PM</h3>
+      
+      <div className="groupcontainer">
+        <div className="addgroup">Add Group</div>
+        <div className="bundleclose">
+          <div className="groupblock">Group1</div>
+          <i className="fas fa-times close-icon"></i>
+        </div>
+        <div className="bundleclose">
+          <div className="groupblock">Group1asfasfdasdfasfdasdfasfd</div>
+          <i className="fas fa-times close-icon"></i>
+        </div>
+        <div className="bundleclose">
+          <div className="groupblock">Group1 asdfasfdasf</div>
+          <i className="fas fa-times close-icon"></i>
+        </div>
+      </div>
+      <div className="editstack">
+        <button className="edit">Edit</button>
+        <button className="delete">Delete</button>
+      </div>
+    </div>
+
+
+    </>)
+
 }

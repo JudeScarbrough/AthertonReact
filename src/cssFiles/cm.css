@@ -1,5 +1,14 @@
-.userblock{
+
+
+body, html{
+    height: 100%;
     width: 100%;
+    margin: 0px 0px 0px 0px;
+}
+
+
+
+.userblock{
     font-family: 'DM Sans', sans-serif;
     font-size: 15px;
     background-color: white;
@@ -14,25 +23,22 @@
     box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.15);
 }
 
-.firstName, .lastName, .phoneNumber, .date, input[type="text"] {
-    text-align: center;
-    vertical-align: middle;
-    font-family: 'DM Sans', sans-serif; /* Ensure inputs match text styling */
-    font-size: 15px; /* Match the font size of other elements */
-    padding: 5px; /* Add some padding inside the inputs */
-    
+#addClientBlock input{
+    height: 35px;
+    border: 1.5px solid black;
+    border-radius: 5px;
+    color: black;
 }
 
-input[type="text"]{
-    border: 1px solid rgba(0, 0, 0, 0.15); /* Match the style of the container */
-    border-radius: 5px; /* Optional: adds rounded corners to input fields */
+.firstName, .lastName, .phoneNumber, .date {
+    text-align: center;
+    vertical-align: middle;
+    
 }
 
 .firstName{
     width: 100px;
 }
-
-
 
 .lastName{
     width: 200px;
@@ -75,38 +81,48 @@ input[type="text"]{
     display: flex;
     align-items: center; /* Vertically aligns the text */
     justify-content: center;
-
+    max-width: 200px;
 }
 
 .addgroup{
     font-size: 12px;
     background-color: #0f83f7;
     width: 62px;
-
+    cursor: pointer;
 }
 
 .groupcontainer{
     margin: 20px 10px;
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(1, 1fr);
     gap: 10px;
-
+    justify-items: start;
 
     vertical-align: middle;
 }
 
 
-.edit, .delete, .confirm{
-    text-align: center;
+.edit, .delete{
     background-color: #0f83f7;
     color: white;
     height: 36px;
-    width: 90px;
+    width: 85px;
     border-radius: 5px;
     margin-right: 10px;
     font-family: 'DM Sans', sans-serif;
     border: none;
     line-height: 0px;
+    cursor: pointer;
+}
+
+.addClient{
+    background-color: #0f83f7;
+    color: white;
+    width: 85px;
+    border-radius: 5px;
+    margin-right: 10px;
+    font-family: 'DM Sans', sans-serif;
+    border: none;
 
 }
 
@@ -115,6 +131,7 @@ input[type="text"]{
     height: 25px;
     font-size: 12px;
     margin-top: 5px;
+    
 }
 
 .editstack{
@@ -124,3 +141,61 @@ input[type="text"]{
 
 
 
+.cm-top-headers{
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    margin-top: 15px;
+}
+
+#cm-toggle-add-client{
+    background-color: #0f83f7;
+    color: white;
+    width: 125px;
+    border-radius: 5px;
+    margin-right: 10px;
+    font-family: 'DM Sans', sans-serif;
+    border: none;
+    text-align: center;
+    height: 40px;
+    line-height: 40px;
+    box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.15);
+    cursor: pointer;
+}
+
+
+#cm-search{
+    background-color: #ffffff;
+    color: black;
+    width: 125px;
+    border-radius: 5px;
+    margin-right: 10px;
+    font-family: 'DM Sans', sans-serif;
+    border: none;
+    text-align: center;
+    height: 40px;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.15);
+    display: flex;
+    text-align: center;
+    justify-content: space-around;
+    cursor: pointer;
+}
+
+#cm-search h1{
+    font-size: 15px;
+    vertical-align: middle;
+    margin-left: 20px;
+}
+
+#content{
+    min-width: 820px;
+}
+
+
+
+
+#cm-search-icon{
+    height: 20px;
+    margin: auto 10px;
+}

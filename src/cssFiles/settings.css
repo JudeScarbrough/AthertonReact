@@ -17,6 +17,11 @@ body {
     border-radius: 5px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.2);
     text-align: center;
+    /* Centering styles */
+    position: absolute; /* or 'fixed' depending on the use case */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 
 }
 
@@ -67,9 +72,9 @@ label {
     font-weight: bold;
 }
 
-input[type="text"],
-input[type="email"],
-input[type="tel"] {
+.login-container input[type="text"],
+.login-container input[type="email"],
+.login-container input[type="tel"] {
     width: 100%;
     padding: 10px;
     margin-bottom: 20px;
