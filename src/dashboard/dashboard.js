@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { DashboardFrame } from './dashboard_frame';
-import { ClientManager } from './subApps/cm.js'
+import { ClientManager } from './subApps/cm/cm.js'
 import { DirectMessage } from './subApps/dm.js'
 import { AppointmentManager } from './subApps/am.js'
 import { GroupManager } from './subApps/gm.js'
