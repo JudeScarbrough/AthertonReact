@@ -1,17 +1,18 @@
 import React, { useState } from 'react';
 import "../../../cssFiles/cm.css";
 import searchIcon from '../../../images/search.png';
-import { userBlock } from './userBlock';
-import { addUser } from './addUser';
+import { UserBlock } from './userBlock.js';
+import { AddUser } from './addUser.js';
 
 
 export function ClientManager(props) {
 
 return <>
 
-<addUser></addUser>
 
-<userBlock></userBlock>
+
+<AddUser userData={props.userData}></AddUser>
+<UserBlock></UserBlock>
 
 
 

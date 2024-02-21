@@ -22,6 +22,7 @@ body, html {
     align-items: center;
     box-sizing: border-box;
     border-right: 1px solid #ddd; /* Adding a border line to the right side */
+
 }
 
 
@@ -33,6 +34,8 @@ body, html {
     cursor: pointer;
     transition: background-color 0.3s;
     box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 500;
 }
 
 .nav-item:hover, .nav-item.active {

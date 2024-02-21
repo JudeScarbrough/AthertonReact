@@ -25,7 +25,7 @@ body, html{
 
 #addClientBlock input{
     height: 35px;
-    border: 1.5px solid black;
+    border: 1px solid black;
     border-radius: 5px;
     color: black;
 }
@@ -37,7 +37,7 @@ body, html{
 }
 
 .firstName{
-    width: 100px;
+    width: 150px;
 }
 
 .lastName{
@@ -168,7 +168,6 @@ body, html{
 #cm-search{
     background-color: #ffffff;
     color: black;
-    width: 125px;
     border-radius: 5px;
     margin-right: 10px;
     font-family: 'DM Sans', sans-serif;
@@ -184,10 +183,19 @@ body, html{
     margin-left: 20px;
 }
 
-#cm-search h1{
+#cm-search input{
     font-size: 15px;
     vertical-align: middle;
     margin-left: 20px;
+    border: 0px;
+    width: 100px;
+}
+#cm-search input:focus{
+    font-size: 15px;
+    vertical-align: middle;
+    margin-left: 20px;
+    border: 0px solid white;
+    outline: none;
 }
 
 #content{
@@ -251,4 +259,140 @@ body, html{
     cursor: pointer;
   }
   
-  
+  .userblock {
+    display: flex;
+    flex-wrap: wrap; /* Allows for wrapping if the container width is too small */
+    gap: 10px; /* Ensures 10px space between each child */
+    align-items: center; /* Centers items vertically */
+    justify-content: space-evenly; /* Distributes items evenly with space around them */
+    /* Other styles remain unchanged */
+}
+
+/* Style adjustments for the date selectors */
+.date-selectors {
+    display: flex;
+    align-items: center;
+}
+
+.date-separator {
+    padding: 0 5px; /* Adjust as needed for visual appearance */
+    font-size: 16px; /* Ensures the '/' is clearly visible */
+}
+
+.daySelector, .monthSelector, .yearSelector {
+    border: 1.5px solid black;
+    border-radius: 5px;
+    text-align: center;
+    /* Adjust padding and font size as needed */
+}
+
+.yearSelector{
+    width: 50px;
+}
+
+/* You might need to adjust the width of the firstName, lastName, and phoneNumber classes to ensure they fit well with the new date selectors. */
+
+.firstName, .lastName, .phoneNumber {
+    flex: none; /* Prevents these inputs from growing to fill extra space */
+    /* Define explicit widths if necessary, considering the 10px gap */
+}
+
+/* Ensure the input and select elements have consistent height and styling */
+#addClientBlock input, #addClientBlock select {
+    height: 35px;
+    color: black;
+    text-align: center;
+}
+
+.appointment-date-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center-aligns items horizontally */
+    gap: 5px; /* Space between elements */
+    padding-top: 10px; /* Adds padding to the top of the stack */
+    padding-bottom: 10px; /* Adds padding to the bottom of the stack */
+}
+
+.appointment-date-label {
+    font-weight: bold;
+    text-align: center; /* Ensures the label text is centered */
+}
+
+.date-selectors, .time-selectors {
+    display: flex;
+    align-items: center; /* Centers items vertically */
+    gap: 5px; /* Space between selectors */
+    justify-content: center; /* Centers the selectors horizontally within their container */
+
+}
+
+
+
+.date-separator, .time-separator {
+    font-size: 16px; /* Ensures the ':' and '/' are clearly visible */
+    text-align: center; /* Center-aligns the separators if necessary */
+}
+
+
+
+.group-popup {
+    position: fixed; /* Fixed positioning to make it stick at the top */
+    top: 10%; /* Align top */
+    left: 50%; /* Center horizontally */
+    transform: translateX(-50%); /* Adjust to precisely center the element */
+    background: white;
+    padding: 10px;
+    border: 0px;
+    width: auto; /* Adjust the width as needed */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: Adds a shadow for better visibility */
+    z-index: 10; /* Ensure it's above other content */
+    min-width: 150px;
+    border-radius: 5px;
+}
+
+.group-popup div {
+    display: flex; /* Use flexbox for alignment */
+    align-items: center; /* Align items vertically */
+    margin-bottom: 10px; /* Space out each group selection */
+
+}
+
+.group-popup input[type="checkbox"] {
+    margin-right: 10px; /* Space between checkbox and label */
+}
+
+.group-popup button {
+    margin-top: 20px; /* Space above the 'Add Groups' button */
+    cursor: pointer; /* Change cursor on hover */
+    padding: 10px 20px; /* Padding for button */
+    border: none; /* Remove default border */
+    background-color: #007bff; /* Example button color */
+    color: white; /* Text color */
+    border-radius: 5px; /* Rounded corners */
+}
+
+.dim-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 9; /* Ensure it's below the popup but above other content */
+}
+
+.group-popup {
+    z-index: 10; /* Ensure this is above the dim background */
+    /* Other styles remain unchanged */
+}
+
+
+.group-popup {
+    pointer-events: auto; /* Ensure the popup can still capture clicks. */
+}
+
+.date-selectors select, .time-selectors select{
+    border: 1px solid black;
+    border-radius: 5px;
+    height: 35px;
+}
