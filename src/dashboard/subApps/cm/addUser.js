@@ -116,19 +116,25 @@ function CMAddClient({ groupNames, userData, toggleAddClient }) {
 
     const renderGroupPopup = (groupNames1 = []) => (
         <div className="group-popup" style={{ position: 'absolute', zIndex: 10, background: 'white', padding: '20px', border: '1px solid black' }}>
-            {groupNames1.map((groupName, index) => (
-                <div key={index}>
-                    <input
-                        type="checkbox"
-                        id={`group-${index}`}
-                        name={groupName}
-                        value={groupName}
-                        checked={selectedGroups.includes(groupName)}
-                        onChange={() => handleGroupChange(groupName)}
-                    />
-                    <label htmlFor={`group-${index}`}>{groupName}</label>
-                </div>
-            ))}
+            {
+                groupNames1.length > 0 ? (
+                    groupNames1.map((groupName, index) => (
+                        <div key={index}>
+                            <input
+                                type="checkbox"
+                                id={`group-${index}`}
+                                name={groupName}
+                                value={groupName}
+                                checked={selectedGroups.includes(groupName)}
+                                onChange={() => handleGroupChange(groupName)}
+                            />
+                            <label htmlFor={`group-${index}`}>{groupName}</label>
+                        </div>
+                    ))
+                ) : (
+                    <h3>Create a group in the Group Manager Tab</h3>
+                )
+            }
             <button onClick={() => setShowGroupPopup(false)}>Done</button>
         </div>
     );
@@ -209,11 +215,11 @@ function CMHeader(props) {
     return (
         <>
             <div className="cm-top-headers">
-                <div id="cm-toggle-add-client" onClick={props.toggleAddClient}>Add Client</div>
-                <div id="cm-search">
+                <div id="cm-toggle-add-client" class='no-select' onClick={props.toggleAddClient}>Add Client</div>
+                {/*<div id="cm-search">
                     <input placeholder='      Search' />
                     <img id='cm-search-icon' src={searchIcon} alt="Search Icon" />
-                </div>
+    </div>*/}
             </div>
         </>
     );

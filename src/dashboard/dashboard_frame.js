@@ -15,21 +15,21 @@ export function DashboardFrame(props){
                 src={mainLogo}
                 />
                 <div id="line" />
-                <div className="nav-item" onClick={() => props.navButtonClicked(1)}>
+                <div className="nav-item no-select" onClick={() => props.navButtonClicked(1)}>
                 Client Manager
                 </div>
-                <div className="nav-item" onClick={() => props.navButtonClicked(2)}>
+                <div className="nav-item no-select" onClick={() => props.navButtonClicked(2)}>
                 Direct Message
                 </div>
-                <div className="nav-item" onClick={() => props.navButtonClicked(3)}>
+                <div className="nav-item no-select" onClick={() => props.navButtonClicked(3)}>
                 Appointment Manager
                 </div>
-                <div className="nav-item" onClick={() => props.navButtonClicked(4)}>
+                <div className="nav-item no-select" onClick={() => props.navButtonClicked(4)}>
                 Group Manager
                 </div>
 
                 <div id="navBottom" onClick={() => props.navButtonClicked(5)}>
-                    <h3 id="companyNameSettings">{props.userData["settings"][0]}</h3>
+                    <h3 id="companyNameSettings" class="no-select">{props.userData["settings"][0]}</h3>
 
                     <img src={settingsIcon} id="settingsButton" />
                 </div>
