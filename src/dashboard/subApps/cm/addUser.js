@@ -85,7 +85,7 @@ function CMAddClient({ groupNames, userData, toggleAddClient }) {
         } else if (date.ampm === 'AM' && date.hour === 12) {
             adjustedHour = 0;
         }
-
+    
         const appointmentDate = new Date(date.year, date.month - 1, date.day, adjustedHour, date.minute);
         const unixTimestamp = Math.floor(appointmentDate.getTime() / 1000);
     
@@ -100,16 +100,17 @@ function CMAddClient({ groupNames, userData, toggleAddClient }) {
             isEditing: false,
         };
     
-        // Assuming userData.clientData exists and is an array
+        // Ensure userData.clientData exists and is an array. If not, use an empty array.
+        // This way, we avoid the "not iterable" error.
+        userData.clientData = userData.clientData || [];
         
         const updatedClientData = [newClient, ...userData.clientData];
-        userData.clientData = updatedClientData
+        userData.clientData = updatedClientData;
     
         // Call setData with the updated user data
         setData(userData);
     
-        
-        toggleAddClient()
+        toggleAddClient();
     };
     
     
@@ -215,7 +216,7 @@ function CMHeader(props) {
     return (
         <>
             <div className="cm-top-headers">
-                <div id="cm-toggle-add-client" class='no-select' onClick={props.toggleAddClient}>Add Client</div>
+                <div id="cm-toggle-add-client" className='no-select' onClick={props.toggleAddClient}>Add Client</div>
                 {/*<div id="cm-search">
                     <input placeholder='      Search' />
                     <img id='cm-search-icon' src={searchIcon} alt="Search Icon" />

@@ -1,0 +1,85 @@
+.addGroupBlock{
+    width: 465px;
+    margin: auto;
+    margin-top: 20px;
+    display: flex;
+    gap: 10px; /* Ensures 10px space between each child */
+    align-items: center; /* Centers items vertically */
+    justify-content: space-evenly; /* Distributes items evenly with space around them */
+    /* Other styles remain unchanged */
+
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    background-color: white;
+    /*vertical-align: middle;
+    align-items: center;*/
+    border-radius: 5px;
+    border: 1px solid rgba(4, 0, 0, 0.15);
+    box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.15);
+}
+
+#addGroupConfirm{
+    width: 100px;
+}
+
+#addGroupInput{
+    width: 300px;
+    height: 30px;
+    border: 0px solid black;
+    border-bottom: 1px solid black;
+    font-size: 16px;
+    margin-left: 15px;
+    margin-right: 15px;
+    outline: none;
+}
+
+
+
+.groupItem{
+    height: 80px;
+    width: 700px;
+    margin: auto;
+    margin-top: 20px;
+    display: flex;
+    gap: 10px; /* Ensures 10px space between each child */
+    align-items: center; /* Centers items vertically */
+    justify-content: space-evenly; /* Distributes items evenly with space around them */
+    /* Other styles remain unchanged */
+
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    background-color: white;
+    /*vertical-align: middle;
+    align-items: center;*/
+    border-radius: 5px;
+    border: 1px solid rgba(4, 0, 0, 0.15);
+    box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.15);
+    position: relative;
+}
+
+.groupEdit{
+    width: 90px;
+    position: absolute;
+    right: 20px;
+}
+
+
+.groupDelete{
+    width: 90px;
+    position: absolute;
+    left: 20px;
+    background-color: red;
+}
+
+.groupEditInput{
+    display: none;
+    width: 400px;
+    height: 60px;
+    border: 0px solid black;
+    border-bottom: 1px solid black;
+    font-size: 30px;
+    margin-left: 15px;
+    margin-right: 15px;
+    outline: none;
+    text-align: center;
+}

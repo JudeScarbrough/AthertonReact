@@ -12,7 +12,7 @@ return <>
 
 
 <AddUser userData={props.userData}></AddUser>
-<UserBlock></UserBlock>
+<UserBlock userData={props.userData}></UserBlock>
 
 
 

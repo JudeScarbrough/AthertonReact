@@ -29,7 +29,7 @@ export function DashboardFrame(props){
                 </div>
 
                 <div id="navBottom" onClick={() => props.navButtonClicked(5)}>
-                    <h3 id="companyNameSettings" class="no-select">{props.userData["settings"][0]}</h3>
+                    <h3 id="companyNameSettings" className="no-select">{props.userData["settings"][0]}</h3>
 
                     <img src={settingsIcon} id="settingsButton" />
                 </div>
