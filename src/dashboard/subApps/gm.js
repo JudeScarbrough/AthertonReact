@@ -1,26 +1,33 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import "../../cssFiles/cm.css";
 import "../../cssFiles/gm.css";
-import { setData } from "../../database/database";
+import { setData, getUserData } from "../../database/database";
 
 export function GroupManager(props) {
-    const initialUserData = {
+    const [userData, setUserData] = useState({
         ...props.userData,
         groupData: props.userData.groupData || []
-    };
-    const [userData, setUserData] = useState(initialUserData);
+    });
     const [showAddGroup, setShowAddGroup] = useState(false);
+
+    useEffect(() => {
+        getUserData().then(data => setUserData(data));
+    }, []);
 
     const toggleAddGroup = () => {
         setShowAddGroup(!showAddGroup);
     };
 
     const addGroupToUserData = (groupName) => {
-        const updatedGroupData = [groupName, ...userData.groupData];
+        // Ensure groupData is an array before attempting to add to it
+        const currentGroupData = Array.isArray(userData.groupData) ? userData.groupData : [];
+        const updatedGroupData = [groupName, ...currentGroupData];
         const updatedUserData = { ...userData, groupData: updatedGroupData };
-        setUserData(updatedUserData);
-        setData(updatedUserData);
+        setData(updatedUserData).then(() => {
+            getUserData().then(data => setUserData(data));
+        });
     };
+    
 
     return (
         <>
@@ -43,14 +50,16 @@ function GMAddGroup({ toggleAddGroup, addGroupToUserData }) {
     return (
         <div className="addGroupBlock">
             <input
-                type="text"
-                className="groupName"
-                placeholder="Group Name"
-                value={groupName}
-                onChange={(e) => setGroupName(e.target.value)}
-                id="addGroupInput"
-                autoFocus  // Automatically focus this input when the component renders
-            />
+    type="text"
+    className="groupName"
+    placeholder="Group Name"
+    value={groupName}
+    onChange={(e) => setGroupName(e.target.value)}
+    onKeyPress={(e) => e.key === 'Enter' && handleConfirm()}
+    id="addGroupInput"
+    autoFocus
+/>
+
             <button onClick={handleConfirm} id="addGroupConfirm">Confirm</button>
         </div>
     );
@@ -68,42 +77,53 @@ function GroupsList({ userData, setUserData }) {
     const [editIndex, setEditIndex] = useState(null);
     const [editValue, setEditValue] = useState('');
 
+    // Ensure groupData exists and is an array
+    const groupData = userData.groupData || [];
+
     const handleEdit = (index, groupName) => {
         setEditIndex(index);
         setEditValue(groupName);
     };
 
     const handleConfirm = () => {
-        const updatedGroups = [...userData.groupData];
+        const updatedGroups = [...groupData];
         updatedGroups[editIndex] = editValue;
         const updatedUserData = { ...userData, groupData: updatedGroups };
-        setUserData(updatedUserData);
-        setData(updatedUserData);
-        setEditIndex(null);
+        setData(updatedUserData).then(() => {
+            getUserData().then(data => {
+                setUserData(data);
+                setEditIndex(null);
+            });
+        });
     };
 
     const handleDelete = index => {
-        const updatedGroups = userData.groupData.filter((_, i) => i !== index);
+        const updatedGroups = groupData.filter((_, i) => i !== index);
         const updatedUserData = { ...userData, groupData: updatedGroups };
-        setUserData(updatedUserData);
-        setData(updatedUserData);
-        setEditIndex(null);
+        setData(updatedUserData).then(() => {
+            getUserData().then(data => {
+                setUserData(data);
+                setEditIndex(null);
+            });
+        });
     };
 
     return (
         <>
-            {userData.groupData.map((group, index) => (
+            {groupData.map((group, index) => (
                 <div key={index} className="groupItem">
                     {editIndex === index ? (
                         <>
                             <input
-                                id={`groupEditInput-${index}`}
-                                className="groupEditInput"
-                                style={{ display: 'block' }}
-                                value={editValue}
-                                onChange={(e) => setEditValue(e.target.value)}
-                                autoFocus
-                            />
+    id={`groupEditInput-${index}`}
+    className="groupEditInput"
+    style={{ display: 'block' }}
+    value={editValue}
+    onChange={(e) => setEditValue(e.target.value)}
+    onKeyPress={(e) => e.key === 'Enter' && handleConfirm()}
+    autoFocus
+/>
+
                             <button style={{ display: 'block' }} onClick={handleConfirm} className="groupEdit">Confirm</button>
                             <button style={{ display: 'block' }} onClick={() => handleDelete(index)} className="groupDelete">Delete</button>
                         </>

@@ -44,15 +44,23 @@ export function getUserData() {
 }
 
 // Function to set or update data for the current user
+// Function to set or update data for the current user
 export function setData(userData) {
     const userId = auth.currentUser?.uid; // Safely get the current user's ID if logged in
     if (!userId) {
         console.error("No user is signed in.");
-        return; // Exit if no user is signed in
+        return Promise.reject(new Error("No user is signed in.")); // Return a rejected promise if no user is signed in
     }
 
     const userRef = ref(database, 'users/' + userId);
-    update(userRef, userData)
-        .then(() => console.log("User data updated successfully."))
-        .catch((error) => console.error("Error updating user data:", error));
+    // Return the promise so that it can be used with .then() and .catch() outside of this function
+    return update(userRef, userData)
+        .then(() => {
+            console.log("User data updated successfully.");
+            return userData; // Optionally return userData or some other result
+        })
+        .catch((error) => {
+            console.error("Error updating user data:", error);
+            throw error; // Re-throw the error to allow handling it with .catch() outside of this function
+        });
 }
