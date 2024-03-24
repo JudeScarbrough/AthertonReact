@@ -405,3 +405,42 @@ body, html{
     -ms-user-select: none;       /* Internet Explorer/Edge */
     user-select: none;           /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
   }
+
+
+
+  .popupCheckbox{
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    width: 25px; /* custom size */
+    height: 25px; /* custom size */
+ 
+    border-radius: 5px; /* rounded corners */
+    border: 4px solid black;
+    cursor: pointer;
+    position: relative;
+    outline: none;
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3); /* shadow for 3D effect */
+  }
+
+  .popupCheckbox:checked{
+    background: linear-gradient(145deg, #72a4ff, #11acff); /* different gradient for checked state */
+
+  }
+
+  .popupCheckbox:checked::after{
+    content: '';
+    position: absolute;
+    left: 6px;
+    top: 0px;
+    width: 4px;
+    height: 12px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    transform: rotate(45deg);
+  }
+
+  .checkboxLabel{
+    font-size: 25px;
+    margin-top: 5px;
+  }

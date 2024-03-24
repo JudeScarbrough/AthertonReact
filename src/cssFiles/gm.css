@@ -72,6 +72,10 @@
     
 }
 
+.groupDelete:hover{
+    background-color: red;
+}
+
 .groupEditInput{
     display: none;
     width: 400px;

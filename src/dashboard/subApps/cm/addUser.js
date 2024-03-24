@@ -30,26 +30,23 @@ export function AddUser(props) {
 
 
 
-
 function CMAddClient({ groupNames, userData, toggleAddClient }) {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
     const [showGroupPopup, setShowGroupPopup] = useState(false);
-    const [selectedGroups, setSelectedGroups] = useState([]);
+    const [selectedGroupIndexes, setSelectedGroupIndexes] = useState([]);
 
-    // Initialize state with current date and time
     const now = new Date();
     let initialHour = now.getHours();
     const initialMinute = now.getMinutes();
     const initialAmpm = initialHour >= 12 ? 'PM' : 'AM';
 
-    // Convert 24-hour format to 12-hour format
-    initialHour = initialHour % 12 || 12; // the hour '0' should be '12'
+    initialHour = initialHour % 12 || 12;
 
     const [date, setDate] = useState({
         day: now.getDate(),
-        month: now.getMonth() + 1, // JavaScript months are 0-based
+        month: now.getMonth() + 1,
         year: now.getFullYear(),
         hour: initialHour,
         minute: initialMinute < 10 ? `0${initialMinute}` : initialMinute,
@@ -58,12 +55,12 @@ function CMAddClient({ groupNames, userData, toggleAddClient }) {
 
     const isValidPhoneNumber = (phone) => /^[0-9]{10}$/.test(phone);
 
-    const handleGroupChange = (groupName) => {
-        setSelectedGroups(prevSelectedGroups => {
-            if (prevSelectedGroups.includes(groupName)) {
-                return prevSelectedGroups.filter(group => group !== groupName);
+    const handleGroupChange = (index) => {
+        setSelectedGroupIndexes(prevSelectedIndexes => {
+            if (prevSelectedIndexes.includes(index)) {
+                return prevSelectedIndexes.filter(i => i !== index);
             } else {
-                return [...prevSelectedGroups, groupName];
+                return [...prevSelectedIndexes, index];
             }
         });
     };
@@ -78,64 +75,59 @@ function CMAddClient({ groupNames, userData, toggleAddClient }) {
             alert("Please fill all the fields correctly.");
             return;
         }
+
+        if (!userData.clientData) {
+            userData.clientData = [];
+        }
     
+
         let adjustedHour = date.hour;
         if (date.ampm === 'PM' && date.hour !== 12) {
             adjustedHour = parseInt(date.hour) + 12;
         } else if (date.ampm === 'AM' && date.hour === 12) {
             adjustedHour = 0;
         }
-    
+
         const appointmentDate = new Date(date.year, date.month - 1, date.day, adjustedHour, date.minute);
         const unixTimestamp = Math.floor(appointmentDate.getTime() / 1000);
-    
-        const groupIndexes = selectedGroups.map(groupName => groupNames.indexOf(groupName));
-    
+
         const newClient = {
             firstName,
             lastName,
             phoneNumber,
             date: unixTimestamp,
-            groups: groupIndexes,
-            isEditing: false,
+            groups: selectedGroupIndexes,
         };
-    
-        // Ensure userData.clientData exists and is an array. If not, use an empty array.
-        // This way, we avoid the "not iterable" error.
+
         userData.clientData = userData.clientData || [];
         
         const updatedClientData = [newClient, ...userData.clientData];
         userData.clientData = updatedClientData;
-    
-        // Call setData with the updated user data
+
         setData(userData);
-    
+
         toggleAddClient();
     };
-    
-    
 
     const renderGroupPopup = (groupNames1 = []) => (
         <div className="group-popup" style={{ position: 'absolute', zIndex: 10, background: 'white', padding: '20px', border: '1px solid black' }}>
-            {
-                groupNames1.length > 0 ? (
-                    groupNames1.map((groupName, index) => (
-                        <div key={index}>
-                            <input
-                                type="checkbox"
-                                id={`group-${index}`}
-                                name={groupName}
-                                value={groupName}
-                                checked={selectedGroups.includes(groupName)}
-                                onChange={() => handleGroupChange(groupName)}
-                            />
-                            <label htmlFor={`group-${index}`}>{groupName}</label>
-                        </div>
-                    ))
-                ) : (
-                    <h3>Create a group in the Group Manager Tab</h3>
-                )
-            }
+            {groupNames1.length > 0 ? (
+                groupNames1.map((groupName, index) => (
+                    <div key={index}>
+                        <input
+                            type="checkbox"
+                            id={`group-${index}`}
+                            value={index}
+                            checked={selectedGroupIndexes.includes(index)}
+                            onChange={() => handleGroupChange(index)}
+                            className='popupCheckbox'
+                        />
+                        <label className='checkboxLabel' htmlFor={`group-${index}`}>{groupName}</label>
+                    </div>
+                ))
+            ) : (
+                <h3>Create a group in the Group Manager Tab</h3>
+            )}
             <button onClick={() => setShowGroupPopup(false)}>Done</button>
         </div>
     );
@@ -153,53 +145,58 @@ function CMAddClient({ groupNames, userData, toggleAddClient }) {
                         <select name="day" value={date.day} onChange={handleChange}>
                             {[...Array(31).keys()].map(day => (
                                 <option key={day} value={day + 1}>{day + 1}</option>
-                            ))}
-                        </select>
-                        <div className="date-separator">/</div>
-                        <select name="month" value={date.month} onChange={handleChange}>
-                            {['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'].map((month, index) => (
-                                <option key={index} value={index + 1}>{month}</option>
-                            ))}
-                        </select>
-                        <div className="date-separator">/</div>
-                        <input name="year" type="text" className="yearSelector" placeholder="Year" value={date.year} onChange={handleChange} />
+                                ))}
+                            </select>
+                            <div className="date-separator">/</div>
+                            <select name="month" value={date.month} onChange={handleChange}>
+                                {['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'].map((month, index) => (
+                                    <option key={index} value={index + 1}>{month}</option>
+                                ))}
+                            </select>
+                            <div className="date-separator">/</div>
+                            <input name="year" type="text" className="yearSelector" placeholder="Year" value={date.year} onChange={handleChange} />
+                        </div>
+                        <div className="time-selectors">
+                            <select name="hour" value={date.hour} onChange={handleChange}>
+                                {[...Array(12).keys()].map(hour => (
+                                    <option key={hour} value={hour + 1}>{hour + 1}</option>
+                                ))}
+                            </select>
+                            <div className="time-separator">:</div>
+                            <select name="minute" value={date.minute} onChange={handleChange}>
+                                {[...Array(60).keys()].map(minute => (
+                                    <option key={minute} value={minute < 10 ? `0${minute}` : minute}>
+                                        {minute < 10 ? `0${minute}` : minute}
+                                    </option>
+                                ))}
+                            </select>
+                            <select name="ampm" value={date.ampm} onChange={handleChange}>
+                                <option value="AM">AM</option>
+                                <option value="PM">PM</option>
+                            </select>
+                        </div>
                     </div>
-                    <div className="time-selectors">
-                        <select name="hour" value={date.hour} onChange={handleChange}>
-                            {[...Array(12).keys()].map(hour => (
-                                <option key={hour + 1} value={hour + 1}>{hour + 1}</option>
-                            ))}
-                        </select>
-                        <div className="time-separator">:</div>
-                        <select name="minute" value={date.minute} onChange={handleChange}>
-                            {[...Array(60).keys()].map(minute => (
-                                <option key={minute} value={minute < 10 ? `0${minute}` : minute}>
-                                    {minute < 10 ? `0${minute}` : minute}
-                                </option>
-                            ))}
-                        </select>
-                        <select name="ampm" value={date.ampm} onChange={handleChange}>
-                            <option value="AM">AM</option>
-                            <option value="PM">PM</option>
-                        </select>
+    
+                    <div className="groupcontainer">
+                        <div className="addgroup" onClick={() => setShowGroupPopup(true)}>
+                            {selectedGroupIndexes.length > 0 ? 'Edit Groups' : 'Add Group'}
+                        </div>
+                        {selectedGroupIndexes.map((index) => (
+                            <div key={index} className="groupblock">{groupNames[index]}</div>
+                        ))}
                     </div>
+    
+                    <button className="addClient" onClick={validateAndAddClient}>Add</button>
                 </div>
+    
+                {showGroupPopup && renderGroupPopup(groupNames)}
+                {showGroupPopup && <div className="dim-background" onClick={() => setShowGroupPopup(false)}></div>}
+            </>
+        );
+    }
+    
 
-                <div className="groupcontainer">
-                    <div className="addgroup" onClick={() => setShowGroupPopup(true)}>Add Group</div>
-                    {selectedGroups.map((groupName, index) => (
-                        <div key={index} className="groupblock">{groupName}</div>
-                    ))}
-                </div>
 
-                <button className="addClient" onClick={validateAndAddClient}>Add</button>
-            </div>
-
-            {showGroupPopup && renderGroupPopup(groupNames)}
-            {showGroupPopup && <div className="dim-background" onClick={() => setShowGroupPopup(false)}></div>}
-        </>
-    );
-}
 
 
 
@@ -212,16 +209,9 @@ function CMAddClient({ groupNames, userData, toggleAddClient }) {
 
 
 function CMHeader(props) {
-
-    return (
-        <>
+    return (<>
             <div className="cm-top-headers">
                 <div id="cm-toggle-add-client" className='no-select' onClick={props.toggleAddClient}>Add Client</div>
-                {/*<div id="cm-search">
-                    <input placeholder='      Search' />
-                    <img id='cm-search-icon' src={searchIcon} alt="Search Icon" />
-    </div>*/}
             </div>
-        </>
-    );
+        </>);
 }
