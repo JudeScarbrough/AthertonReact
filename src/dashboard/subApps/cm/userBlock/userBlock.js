@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { setData } from '../../../database/database';
+import { setData } from '../../../../database/database';
 import { handleGroupChange, handleDoneClick, formatTimestamp, renderGroupPopup, showPopupForUser } from './userBlockUtils';
 
 export function UserBlock({ userData }) {

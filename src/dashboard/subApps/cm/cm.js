@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import "../../../cssFiles/cm.css";
-import { UserBlock } from './userBlock.js';
+import { UserBlock } from './userBlock/userBlock.js';
 import { AddUser } from './addUser.js';
 import { getUserData } from '../../../database/database.js';
 
