@@ -21,7 +21,7 @@ export function UserBlock({ userData }) {
         <>
         
             {userData.clientData.map((user, index) => (
-                <MainBlock user={user} userData={userData}></MainBlock>
+                <MainBlock user={user} userData={userData} key={index}></MainBlock>
             ))}
 
             

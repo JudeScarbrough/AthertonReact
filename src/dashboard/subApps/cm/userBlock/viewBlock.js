@@ -1,6 +1,6 @@
 
 
-export function ViewBlock({ user, userData }) {
+export function ViewBlock({ user, userData, flipEditState }) {
     return (
         <div className="userblock">
             <h3 className="firstName">{user.firstName}</h3>
@@ -15,7 +15,7 @@ export function ViewBlock({ user, userData }) {
                 ))}
             </div>
             <div className="editstack">
-                <button className="edit">Edit</button>
+                <button className="edit" onClick={flipEditState}>Edit</button>
                 {/*<button className="delete">Delete</button>*/}
             </div>
         </div>

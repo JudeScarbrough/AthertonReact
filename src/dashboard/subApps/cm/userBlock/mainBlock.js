@@ -1,19 +1,22 @@
 import { ViewBlock } from "./viewBlock"
 import { EditBlock } from "./editBlock"
+import { useState } from "react"
 
 export function MainBlock({ user, userData }){
 
-    if(!user.isEiditing){
-        user.isEiditing = false
+    const [isEiditing, setEditing] = useState(false)
+
+    const flipEditState = () => {
+        setEditing(!isEiditing)
     }
 
-    if(user.isEiditing == false){
+    if(isEiditing == false){
         return (<>
-            <ViewBlock user={user} userData={ userData}></ViewBlock>
+            <ViewBlock user={user} userData={ userData} flipEditState={flipEditState}></ViewBlock>
         </>)
     } else {
         return (<>
-            <EditBlock user={user}></EditBlock>
+            <EditBlock user={user}  userData={ userData} flipEditState={flipEditState}></EditBlock>
         </>)
     }
 
