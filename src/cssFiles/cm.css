@@ -6,7 +6,12 @@ body, html{
     margin: 0px 0px 0px 0px;
 }
 
-
+@media (max-width: 1332px) {
+    .editInputs{
+      margin-top: 20px;
+    }
+  }
+  
 
 .userblock{
     font-family: 'DM Sans', sans-serif;

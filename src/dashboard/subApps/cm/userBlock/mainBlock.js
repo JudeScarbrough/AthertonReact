@@ -1,12 +1,25 @@
 import { ViewBlock } from "./viewBlock"
 import { EditBlock } from "./editBlock"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 
-export function MainBlock({ user, userData, index, updateUserData }){
+export function MainBlock({ user, userData, index, updateUserData, forceClose, forceCloseEdit }){
 
     const [isEiditing, setEditing] = useState(false)
 
+
+    console.log("force close: ", forceClose)
+
+    useEffect(() => {
+        if(forceClose){
+            setEditing(false);
+        }
+    }, [forceClose]);
+
+
     const flipEditState = () => {
+        if(forceClose){
+            forceCloseEdit()
+        }
         setEditing(!isEiditing)
     }
 
@@ -46,13 +59,14 @@ export function MainBlock({ user, userData, index, updateUserData }){
     };
 
 
-    if(isEiditing == false){
+    if((isEiditing == true) && !forceClose){
         return (<>
-            <ViewBlock user={user} userData={ userData} flipEditState={flipEditState}></ViewBlock>
+            <EditBlock user={user}  userData={ userData} flipEditState={flipEditState} confirmUser={confirmUser} deleteUser={deleteUser}></EditBlock>
+
         </>)
     } else {
         return (<>
-            <EditBlock user={user}  userData={ userData} flipEditState={flipEditState} confirmUser={confirmUser} deleteUser={deleteUser}></EditBlock>
+            <ViewBlock user={user} userData={ userData} flipEditState={flipEditState}></ViewBlock>
         </>)
     }
 

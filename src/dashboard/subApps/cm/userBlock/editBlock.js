@@ -111,8 +111,9 @@ function renderGroupPopup(userData, selectedGroupIndexes, setShowGroupPopup, han
                         id={`group-${index}`}
                         checked={selectedGroupIndexes.includes(index)}
                         onChange={() => handleGroupChange(index)}
+                        className='popupCheckbox'
                     />
-                    <label htmlFor={`group-${index}`}>{groupName}</label>
+                    <label htmlFor={`group-${index}`} className='checkboxLabel'>{groupName}</label>
                 </div>
             ))}
             <button onClick={() => setShowGroupPopup(false)}>Done</button>

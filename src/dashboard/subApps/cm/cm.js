@@ -7,6 +7,7 @@ import { getUserData, setData } from '../../../database/database.js';
 export function ClientManager(props) {
     const [userData, setUserData] = useState(props.userData);
     const [refreshKey, setRefreshKey] = useState(0); // State to trigger useEffect
+    const [forceClose, setForceClose] = useState(false)
 
     useEffect(() => {
         // Fetch the latest user data
@@ -19,17 +20,26 @@ export function ClientManager(props) {
         });
     }, [refreshKey]); // Depend on refreshKey to re-fetch user data
 
-    // Function to update user data and trigger refresh
     const updateUserData = (newUserData) => {
         setUserData(newUserData); // Update the state
         setData(newUserData); // Call setData to update the database
         setRefreshKey(prevKey => prevKey + 1); // Increment refreshKey to trigger useEffect
     };
 
+
+
+    const forceCloseEdit = () => {
+        setForceClose(!forceClose)
+    }
+
+
+
+
     return (
         <>
-            <AddUser userData={userData} updateUserData={updateUserData} />
-            <UserBlock userData={userData} updateUserData={updateUserData} />
+            <AddUser userData={userData} updateUserData={updateUserData} forceCloseEdit={forceCloseEdit}/>
+            <UserBlock userData={userData} updateUserData={updateUserData} forceCloseEdit={forceCloseEdit} forceClose={forceClose}/>
         </>
     );
 }
+

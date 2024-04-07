@@ -18,7 +18,7 @@ export function AddUser(props) {
     return (
         <>
             <CMHeader toggleAddClient={toggleAddClient} />
-            {showAddClient && <CMAddClient groupNames={groupNames} userData={userData} toggleAddClient={toggleAddClient} updateUserData={props.updateUserData}/>}
+            {showAddClient && <CMAddClient groupNames={groupNames} userData={userData} toggleAddClient={toggleAddClient} updateUserData={props.updateUserData} forceCloseEdit={props.forceCloseEdit}/>}
         </>
     );
 }
@@ -29,7 +29,7 @@ export function AddUser(props) {
 
 
 
-function CMAddClient({ groupNames, userData, toggleAddClient, updateUserData }) {
+function CMAddClient({ groupNames, userData, toggleAddClient, updateUserData, forceCloseEdit}) {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
@@ -103,9 +103,15 @@ function CMAddClient({ groupNames, userData, toggleAddClient, updateUserData }) 
         const updatedClientData = [newClient, ...userData.clientData];
         userData.clientData = updatedClientData;
 
+
+
         updateUserData(userData);
 
         toggleAddClient();
+
+        forceCloseEdit()
+
+        
     };
 
     const renderGroupPopup = (groupNames1 = []) => (
