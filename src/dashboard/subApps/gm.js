@@ -154,7 +154,7 @@ function GroupsList({ userData, setUserData, editIndex, setEditIndex, editValue,
                         </>
                     ) : (
                         <>
-                            <h1>{group}</h1>
+                            <h1 className='groupNameDisplay'>{group}</h1>
                             <button className="groupEdit" onClick={() => handleEdit(index, group)}>Edit</button>
                         </>
                     )}

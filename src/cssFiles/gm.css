@@ -36,7 +36,7 @@
 
 
 .groupItem{
-    height: 80px;
+    min-height: 80px;
     width: 700px;
     margin: auto;
     margin-top: 20px;
@@ -87,4 +87,14 @@
     margin-right: 15px;
     outline: none;
     text-align: center;
+}
+
+
+
+
+.groupNameDisplay{
+    max-width: 400px;
+    overflow: hidden;
+    text-align: center;
+    word-wrap: break-word;
 }
