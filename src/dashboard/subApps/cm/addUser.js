@@ -10,7 +10,6 @@ export function AddUser(props) {
     var groupNames = props.userData.groupData
     var userData = props.userData
 
-    console.log(userData)
 
     const toggleAddClient = () => {
         setShowAddClient(!showAddClient);
@@ -19,7 +18,7 @@ export function AddUser(props) {
     return (
         <>
             <CMHeader toggleAddClient={toggleAddClient} />
-            {showAddClient && <CMAddClient groupNames={groupNames} userData={userData} toggleAddClient={toggleAddClient}/>}
+            {showAddClient && <CMAddClient groupNames={groupNames} userData={userData} toggleAddClient={toggleAddClient} updateUserData={props.updateUserData}/>}
         </>
     );
 }
@@ -30,7 +29,7 @@ export function AddUser(props) {
 
 
 
-function CMAddClient({ groupNames, userData, toggleAddClient }) {
+function CMAddClient({ groupNames, userData, toggleAddClient, updateUserData }) {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
@@ -104,7 +103,7 @@ function CMAddClient({ groupNames, userData, toggleAddClient }) {
         const updatedClientData = [newClient, ...userData.clientData];
         userData.clientData = updatedClientData;
 
-        setData(userData);
+        updateUserData(userData);
 
         toggleAddClient();
     };

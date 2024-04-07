@@ -25,9 +25,15 @@ body, html{
 
 #addClientBlock input{
     height: 35px;
-    border: 1px solid black;
+    border: 2px solid black;
     border-radius: 5px;
     color: black;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+#addClientBlock input.yearSelector{
+    border: 1px solid black;
 }
 
 .firstName, .lastName, .phoneNumber, .date {
@@ -132,6 +138,10 @@ body, html{
     font-size: 12px;
     margin-top: 5px;
     
+}
+
+.delete:hover {
+    background-color: red;
 }
 
 .editstack{
@@ -279,16 +289,10 @@ body, html{
     font-size: 16px; /* Ensures the '/' is clearly visible */
 }
 
-.daySelector, .monthSelector, .yearSelector {
-    border: 1.5px solid black;
-    border-radius: 5px;
-    text-align: center;
-    /* Adjust padding and font size as needed */
-}
 
-.yearSelector{
-    width: 50px;
-}
+
+
+
 
 /* You might need to adjust the width of the firstName, lastName, and phoneNumber classes to ensure they fit well with the new date selectors. */
 
@@ -444,3 +448,35 @@ body, html{
     font-size: 25px;
     margin-top: 5px;
   }
+
+
+
+
+
+  .editInputs{
+
+    text-align: center;
+    height: 35px;
+    border: 2px solid black;
+    border-radius: 5px;
+    color: black;
+    font-weight: 700;
+    font-size: 17px;
+  }
+
+  .yearSelector{
+    width: 50px;
+    height: 33px;
+}
+
+
+
+.modal-overlay {
+    position: fixed; /* Use fixed positioning to cover the whole screen */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Dim the background with semi-transparent black */
+    z-index: 10; /* Ensure it's above other content but below the popup */
+}

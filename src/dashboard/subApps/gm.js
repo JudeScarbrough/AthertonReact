@@ -4,15 +4,10 @@ import "../../cssFiles/gm.css";
 import { setData, getUserData } from "../../database/database";
 
 export function GroupManager(props) {
-
-
     const [showAddGroup, setShowAddGroup] = useState(false);
     const [userData, setUserData] = useState({ ...props.userData, groupData: props.userData.groupData || [] });
     const [editIndex, setEditIndex] = useState(null);
     const [editValue, setEditValue] = useState('');
-
-
-
 
     useEffect(() => {
         getUserData().then(data => setUserData(data));
@@ -21,7 +16,7 @@ export function GroupManager(props) {
     const handleConfirm = () => {
         if (editIndex != null) {
             const updatedGroups = [...userData.groupData];
-            updatedGroups[editIndex] = editValue;
+            updatedGroups[updatedGroups.length - 1 - editIndex] = editValue;
             const updatedUserData = { ...userData, groupData: updatedGroups };
             setData(updatedUserData).then(() => {
                 getUserData().then(data => {
@@ -41,9 +36,7 @@ export function GroupManager(props) {
     };
 
     const addGroupToUserData = (groupName) => {
-        // Ensure groupData is an array before attempting to add to it
-        const currentGroupData = Array.isArray(userData.groupData) ? userData.groupData : [];
-        const updatedGroupData = [groupName, ...currentGroupData];
+        const updatedGroupData = [...(userData.groupData || []), groupName];
         const updatedUserData = { ...userData, groupData: updatedGroupData };
         setData(updatedUserData).then(() => {
             getUserData().then(data => setUserData(data));
@@ -53,18 +46,18 @@ export function GroupManager(props) {
 
     return (
         <>
-        <GMHeader toggleAddGroup={toggleAddGroup} />
-        {showAddGroup && <GMAddGroup toggleAddGroup={toggleAddGroup} addGroupToUserData={addGroupToUserData} />}
-        <GroupsList 
-            userData={userData} 
-            setUserData={setUserData} 
-            editIndex={editIndex} 
-            setEditIndex={setEditIndex} 
-            editValue={editValue} 
-            setEditValue={setEditValue} 
-            handleConfirm={handleConfirm}
-        />
-    </>
+            <GMHeader toggleAddGroup={toggleAddGroup} />
+            {showAddGroup && <GMAddGroup toggleAddGroup={toggleAddGroup} addGroupToUserData={addGroupToUserData} />}
+            <GroupsList
+                userData={userData}
+                setUserData={setUserData}
+                editIndex={editIndex}
+                setEditIndex={setEditIndex}
+                editValue={editValue}
+                setEditValue={setEditValue}
+                handleConfirm={handleConfirm}
+            />
+        </>
     );
 }
 
@@ -104,34 +97,51 @@ function GMHeader({ toggleAddGroup }) {
 }
 
 function GroupsList({ userData, setUserData, editIndex, setEditIndex, editValue, setEditValue, handleConfirm }) {
-
-
-    // Ensure groupData exists and is an array
     const groupData = userData.groupData || [];
 
     const handleEdit = (index, groupName) => {
-        setEditIndex(index);
+        setEditIndex(groupData.length - 1 - index);
         setEditValue(groupName);
     };
 
+    const handleDelete = (index) => {
+
+           // Assuming userData is already defined and accessible
+        if (Array.isArray(userData.clientData)) {
+            for (let i = 0; i < userData.clientData.length; i++) {
+                const client = userData.clientData[i];
+                if (Array.isArray(client.groups)) {
+                    const updatedGroups = [];
+
+                    for (let j = 0; j < client.groups.length; j++) {
+                        const groupIndex = client.groups[j];
+                        if (groupIndex !== index) {
+                            updatedGroups.push(groupIndex > index ? groupIndex - 1 : groupIndex);
+                        }
+                    }
+
+                    userData.clientData[i].groups = updatedGroups;
+                }
+            }
+        }
 
 
-    const handleDelete = index => {
-        const updatedGroups = groupData.filter((_, i) => i !== index);
-        const updatedUserData = { ...userData, groupData: updatedGroups };
+        const actualIndex = groupData.length - 1 - index;
+        const updatedGroupData = groupData.filter((_, i) => i !== actualIndex);
+
+        const updatedUserData = { ...userData, groupData: updatedGroupData };
         setData(updatedUserData).then(() => {
-            getUserData().then(data => {
-                setUserData(data);
-                setEditIndex(null);
-            });
+            setUserData(updatedUserData);
+            setEditIndex(null);
+            setEditValue('');
         });
     };
 
     return (
         <>
-            {groupData.map((group, index) => (
+            {[...groupData].reverse().map((group, index) => (
                 <div key={index} className="groupItem">
-                    {editIndex === index ? (
+                    {editIndex === groupData.length - 1 - index ? (
                         <>
                             <input
                                 id={`groupEditInput-${index}`}
@@ -142,7 +152,6 @@ function GroupsList({ userData, setUserData, editIndex, setEditIndex, editValue,
                                 onKeyPress={(e) => e.key === 'Enter' && handleConfirm()}
                                 autoFocus
                             />
-
                             <button style={{ display: 'block' }} onClick={handleConfirm} className="groupEdit">Confirm</button>
                             <button style={{ display: 'block' }} onClick={() => handleDelete(index)} className="groupDelete">Delete</button>
                         </>

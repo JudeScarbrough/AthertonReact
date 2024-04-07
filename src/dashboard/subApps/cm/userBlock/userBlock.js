@@ -4,7 +4,7 @@ import { setData } from '../../../../database/database';
 import { MainBlock } from './mainBlock';
 
 
-export function UserBlock({ userData }) {
+export function UserBlock({ userData, updateUserData }) {
     if (!userData.clientData) {
         userData.clientData = [];
     }
@@ -21,7 +21,7 @@ export function UserBlock({ userData }) {
         <>
         
             {userData.clientData.map((user, index) => (
-                <MainBlock user={user} userData={userData} key={index}></MainBlock>
+                <MainBlock user={user} userData={userData} key={index} index={index} updateUserData={updateUserData}></MainBlock>
             ))}
 
             
