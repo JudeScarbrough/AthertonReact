@@ -1,0 +1,151 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,500&family=Kanit:wght@500&family=Raleway:ital,wght@0,100..900;1,100..900&family=Roboto:wght@300;400;500;700;900&display=swap');
+
+
+html{
+    background-color: #f0f0f0;
+}
+
+#amAll{
+    text-align: center;
+    font-family: "Roboto";
+    font-weight: 400;
+}
+
+#amTitle{
+
+    width: 450px;
+    margin: auto;
+    font-size: 32px;
+    margin-bottom: 75px;
+    margin-top: 50px;
+}
+
+
+
+#AMmessageBlock{
+    background-color: white;
+    width: 600px;
+    margin: auto;
+    border-radius: 8px;
+    border: 1px solid rgba(4, 0, 0, 0.15);
+    box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.15);
+}
+
+#AMmessageBlock #amMainText{
+    min-width: 500px;
+    max-width: 500px;
+    min-height: 250px;
+    border-radius: 8px;
+    border: 3px solid gray;
+    padding: 20px;
+    font-size: 18px;
+    font-family: "Roboto";
+    font-weight: 500;
+}
+
+#amSmallText{
+    min-width: 400px;
+    max-width: 400px;
+    border-radius: 8px;
+    border: 3px solid gray;
+    padding: 20px;
+    font-size: 18px;
+    font-family: "Roboto";
+    font-weight: 500;
+    min-height: 25px;
+    height: 25px;
+}
+
+
+#AMmessageBlock h3{
+    font-size: 28px;
+}
+
+#AMConfirmButton{
+    background-color: #0f83f7;
+    color: white;
+    height: 36px;
+    width: 200px;
+    border-radius: 5px;
+    font-family: 'DM Sans', sans-serif;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+    margin-top: 50px;
+    margin-bottom: 20px;
+}
+
+
+
+
+#templateSelect{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%; /* Set your desired width */
+    height: 30px; /* Set your desired height */
+    margin: 20px 0px;
+}
+
+#templateSelect h3{
+    font-size: 20px;
+}
+
+.templateOpt{
+    margin: 10px;
+    border: 2.5px solid gray;
+    width: 190px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+    font-family: "Roboto";
+    font-weight: 500;
+    cursor: pointer;
+    background-color: rgb(245, 245, 245);
+}
+
+.selectedOpt{
+    color: white;
+    margin: 10px;
+    border: 0px solid gray;
+    width: 120px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+    font-family: "Roboto";
+    font-weight: 500;
+    cursor: pointer;
+    background-color: rgb(0, 211, 176);
+}
+
+
+#amPreviewTitle{
+    font-size: 22px;
+    padding: 0px 0px 0px 0px;
+    margin: 10px 0px 10px 0px;
+}
+
+#amPreview, #amPreview2{
+    width: 500px;
+    margin: auto;
+    padding: 0px 0px 0px 0px;
+}
+
+.previewName{
+    color: white;
+    border: 0px solid gray;
+    padding: 0px 5px;
+    border-radius: 5px;
+    font-size: 18px;
+    font-family: "Roboto";
+    font-weight: 500;
+    background-color: rgb(0, 211, 176);
+    white-space: nowrap;
+}

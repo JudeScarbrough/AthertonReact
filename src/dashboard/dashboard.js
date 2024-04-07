@@ -37,9 +37,9 @@ function DirectContent(props){
   if (props.currentPage == 1){
     return <ClientManager userData={props.userData}></ClientManager>
   } else if (props.currentPage == 2){
-    return <DirectMessage></DirectMessage>
+    return <DirectMessage userData={props.userData}></DirectMessage>
   } else if (props.currentPage == 3){
-    return <AppointmentManager></AppointmentManager>
+    return <AppointmentManager userData={props.userData}></AppointmentManager>
   } else if (props.currentPage == 4){
     return <GroupManager userData={props.userData}></GroupManager>
   } else if (props.currentPage == 5){
