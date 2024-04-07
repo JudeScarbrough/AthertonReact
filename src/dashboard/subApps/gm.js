@@ -16,7 +16,8 @@ export function GroupManager(props) {
     const handleConfirm = () => {
         if (editIndex != null) {
             const updatedGroups = [...userData.groupData];
-            updatedGroups[updatedGroups.length - 1 - editIndex] = editValue;
+            const actualIndex = editIndex//updatedGroups.length - 1 - editIndex;
+            updatedGroups[actualIndex] = editValue;
             const updatedUserData = { ...userData, groupData: updatedGroups };
             setData(updatedUserData).then(() => {
                 getUserData().then(data => {
@@ -42,7 +43,6 @@ export function GroupManager(props) {
             getUserData().then(data => setUserData(data));
         });
     };
-    
 
     return (
         <>
@@ -105,8 +105,6 @@ function GroupsList({ userData, setUserData, editIndex, setEditIndex, editValue,
     };
 
     const handleDelete = (index) => {
-
-           // Assuming userData is already defined and accessible
         if (Array.isArray(userData.clientData)) {
             for (let i = 0; i < userData.clientData.length; i++) {
                 const client = userData.clientData[i];
@@ -124,7 +122,6 @@ function GroupsList({ userData, setUserData, editIndex, setEditIndex, editValue,
                 }
             }
         }
-
 
         const actualIndex = groupData.length - 1 - index;
         const updatedGroupData = groupData.filter((_, i) => i !== actualIndex);

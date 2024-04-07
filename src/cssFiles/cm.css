@@ -278,6 +278,9 @@ body, html{
     /* Other styles remain unchanged */
 }
 
+
+
+
 /* Style adjustments for the date selectors */
 .date-selectors {
     display: flex;
@@ -480,3 +483,7 @@ body, html{
     background-color: rgba(0, 0, 0, 0.5); /* Dim the background with semi-transparent black */
     z-index: 10; /* Ensure it's above other content but below the popup */
 }
+
+
+
+
