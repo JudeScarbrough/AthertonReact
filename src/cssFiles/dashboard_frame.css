@@ -1,12 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,500&family=Kanit:wght@500&family=Raleway:ital,wght@0,100..900;1,100..900&family=Roboto:wght@500;900&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
 
 body, html {
     margin: 0;
     padding: 0;
     height: 100%;
-    font-family: 'Arial', sans-serif;
+    font-family: 'Poppins', sans-serif;
 }
 
 #root{
@@ -38,9 +38,9 @@ body, html {
     cursor: pointer;
     transition: background-color 0.3s;
     box-sizing: border-box;
-    font-family: "Raleway", sans-serif;
+    font-family: "Poppins", sans-serif;
     font-optical-sizing: auto;
-    font-weight: 700;
+    font-weight: 500;
     font-style: normal;
 }
 
@@ -74,6 +74,7 @@ body, html {
     margin-left: 10px;
     max-width: 210px;
     overflow: hidden;
+    font-weight: 600;
 }
 
 #navBottom{
@@ -99,3 +100,9 @@ body, html {
     -ms-user-select: none;       /* Internet Explorer/Edge */
     user-select: none;           /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
   }
+
+
+
+  .nav-item.active {
+    background-color: #f0f0f0;
+}

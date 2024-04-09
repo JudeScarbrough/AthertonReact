@@ -40,7 +40,7 @@ button {
     color: white;
     cursor: pointer;
     font-size: 14px;
-    font-weight: 800;
+    font-weight: 500;
 }
 
 button:hover {
@@ -69,7 +69,7 @@ button:hover {
 label {
     display: block;
     margin-bottom: 5px;
-    font-weight: bold;
+    font-weight: 500;
 }
 
 .login-container input[type="text"],
@@ -91,7 +91,7 @@ button {
     border-radius: 4px;
     cursor: pointer;
     font-size: 16px;
-    font-weight: 700;
+    font-weight: 500;
 }
 
 button:hover {
