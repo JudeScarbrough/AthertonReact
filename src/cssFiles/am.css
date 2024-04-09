@@ -11,6 +11,16 @@ html{
     font-weight: 400;
 }
 
+@media (max-width: 2000px) {
+    #amAll {
+      transform: scale(0.75);
+      transform-origin: top;
+    }
+
+    
+  }
+  
+
 #amTitle{
 
     width: 450px;
@@ -19,6 +29,17 @@ html{
     margin-bottom: 75px;
     margin-top: 50px;
 }
+
+@media (max-width: 2000px) {
+    #amTitle {
+      transform: scale(0.75);
+      margin-bottom: 25px;
+        margin-top: 25px;
+    }
+
+    
+  }
+  
 
 
 

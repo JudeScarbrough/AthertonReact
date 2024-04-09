@@ -1,3 +1,14 @@
+@media (max-width: 2000px) {
+    #gmAll {
+      transform: scale(0.90);
+      transform-origin: top;
+    }
+  }
+
+
+
+
+
 .addGroupBlock{
     width: 465px;
     margin: auto;

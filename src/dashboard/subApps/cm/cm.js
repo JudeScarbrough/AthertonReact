@@ -36,10 +36,10 @@ export function ClientManager(props) {
 
 
     return (
-        <>
+        <div id="cmAll">
             <AddUser userData={userData} updateUserData={updateUserData} forceCloseEdit={forceCloseEdit}/>
             <UserBlock userData={userData} updateUserData={updateUserData} forceCloseEdit={forceCloseEdit} forceClose={forceClose}/>
-        </>
+        </div>
     );
 }
 

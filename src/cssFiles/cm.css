@@ -6,6 +6,13 @@ body, html{
     margin: 0px 0px 0px 0px;
 }
 
+@media (max-width: 2000px) {
+    #cmAll {
+      transform: scale(0.90);
+      transform-origin: top;
+    }
+  }
+
 @media (max-width: 1332px) {
     .editInputs{
       margin-top: 20px;
@@ -385,10 +392,10 @@ body, html{
 
 .dim-background {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    top: -100%;
+    left: -100%;
+    width: 800%;
+    height: 800%;
     background: rgba(0, 0, 0, 0.6);
     z-index: 9; /* Ensure it's below the popup but above other content */
 }
@@ -481,10 +488,10 @@ body, html{
 
 .modal-overlay {
     position: fixed; /* Use fixed positioning to cover the whole screen */
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    top: -100%;
+    left: -100%;
+    width: 800%;
+    height: 800%;
     background-color: rgba(0, 0, 0, 0.5); /* Dim the background with semi-transparent black */
     z-index: 10; /* Ensure it's above other content but below the popup */
 }

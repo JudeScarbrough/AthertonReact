@@ -45,7 +45,7 @@ export function GroupManager(props) {
     };
 
     return (
-        <>
+        <div id="gmAll">
             <GMHeader toggleAddGroup={toggleAddGroup} />
             {showAddGroup && <GMAddGroup toggleAddGroup={toggleAddGroup} addGroupToUserData={addGroupToUserData} />}
             <GroupsList
@@ -57,7 +57,7 @@ export function GroupManager(props) {
                 setEditValue={setEditValue}
                 handleConfirm={handleConfirm}
             />
-        </>
+        </div>
     );
 }
 

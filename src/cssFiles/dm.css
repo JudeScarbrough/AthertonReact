@@ -11,6 +11,13 @@ html{
     font-weight: 400;
 }
 
+@media (max-width: 2000px) {
+    #dmAll {
+      transform: scale(0.80);
+      transform-origin: top;
+    }
+  }
+
 #dmTitle{
 
     width: 300px;
