@@ -2,6 +2,7 @@ import text
 import firebase
 
 
+
 def messageGroups(userId, groupIndexes, message):
 
     recipients = []
@@ -24,6 +25,22 @@ def messageGroups(userId, groupIndexes, message):
 
 def findGroupMembers(userId, groupIndex):
     userData = firebase.get_user_data(userId)
+
+    memberList = []
+
+    for client in userData["clientData"]:
+        for clientIndex in client["groups"]:
+            if clientIndex == groupIndex:
+                memberList.append(client["phoneNumber"])
+                break
+
+    return memberList
+
+
+
+
+
+
 
 
 
