@@ -44,3 +44,6 @@ def makeAppointmentMessage(appointmentData, client):
     print(finalString)
     return finalString
 
+
+
+
