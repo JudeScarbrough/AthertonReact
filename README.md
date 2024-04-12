@@ -5,6 +5,11 @@ This project was bootstrapped with [React](https://github.com/facebook/create-re
 ## Current State
 
 Web application is currently in development. Completion projected June 1, 2024.
+#### Front End Status ####
+UI fully complete. Logic 95% complete. Missing integration to backend server.
+
+#### Back End Status ####
+Outline complete. Appointment messaging and group messaging both 95% complete. Missing request recieving and official server items. Missing final connection to twilio API.
 
 ## Functionality
 
