@@ -29,3 +29,16 @@ def get_user_data(user_id):
     user_ref = ref.child('users').child(user_id)
     user_data = user_ref.get()
     return user_data
+
+def get_all_data():
+    ref = get_database_reference()
+    user_ref = ref.child('users')
+    user_data = user_ref.get()
+    return user_data
+
+# Update user data in the database
+def update_user_data(update_data):
+    ref = get_database_reference()
+    user_ref = ref.child('users')
+    user_ref.update(update_data)
+    return f"User data updated successfully."
