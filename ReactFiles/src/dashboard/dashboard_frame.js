@@ -31,7 +31,7 @@ export function DashboardFrame(props){
                     className={`nav-item no-select ${activeNav === 2 ? 'active' : ''}`}
                     onClick={() => handleNavClick(2)}
                 >
-                    Direct Message
+                    Group Message
                 </div>
                 <div 
                     className={`nav-item no-select ${activeNav === 3 ? 'active' : ''}`}
@@ -43,7 +43,7 @@ export function DashboardFrame(props){
                     className={`nav-item no-select ${activeNav === 4 ? 'active' : ''}`}
                     onClick={() => handleNavClick(4)}
                 >
-                    Group Manager
+                    Client Groups
                 </div>
 
                 <div id="navBottom" onClick={() => handleNavClick(5)}>

@@ -77,11 +77,13 @@ export function AppointmentManager(props) {
                         </div>
                     </div>
 
-                    <textarea
-                        id="amSmallText"
-                        value={topText}
-                        onChange={e => setTopText(e.target.value)}
-                    ></textarea>
+                    {includeFirstName || includeLastName ? (
+                        <textarea
+                            id="amSmallText"
+                            value={topText}
+                            onChange={e => setTopText(e.target.value)}
+                        ></textarea>
+                    ) : null}
 
                     <div id="templateSelect">
                     {includeFirstName && <div className="selectedOpt">First Name</div>}
@@ -115,7 +117,7 @@ export function AppointmentManager(props) {
                     </h1>
 
                     <div id="AMConfirmButton" onClick={handleConfirm}>Confirm</div>
-            </div>
+                </div>
             </div>
             {showOverlay && (
                 <div className="overlay">

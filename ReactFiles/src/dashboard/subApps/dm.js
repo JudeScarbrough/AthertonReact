@@ -1,6 +1,7 @@
 import "../../cssFiles/dm.css"
 import React, { useState, useEffect } from 'react';
 import { getUserData } from "../../database/database";
+import { getServerIp } from "../../config";
 
 
 export function DirectMessage(props){
@@ -31,10 +32,10 @@ export function DirectMessage(props){
     return (<>
     <div id="dmAll">
 
-        <h1 id="dmTitle">Instant Message</h1>
+        <h1 id="dmTitle"></h1>
         
         <div id="messageBlock">
-            <h3>Text Message</h3>
+            <h3>Group Message</h3>
 
             <textarea></textarea>
 
@@ -53,7 +54,8 @@ export function DirectMessage(props){
             )}
 
             <div id="groupSection">
-                <div id="sendButton">Send Text To Slected Groups</div>
+                <div id="sendButton" >Send Text To Slected Groups</div>
+                <h4 id="dmInfo">Texts are sent to each member of each group individually</h4>
 
 
             </div>

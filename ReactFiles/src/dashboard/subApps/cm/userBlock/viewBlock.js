@@ -3,10 +3,10 @@
 export function ViewBlock({ user, userData, flipEditState }) {
     return (
         <div className="userblock">
-            <h3 className="firstName">{user.firstName}</h3>
-            <h3 className="lastName">{user.lastName}</h3>
-            <h3 className="phoneNumber">{user.phoneNumber}</h3>
-            <h3 className="date">{formatTimestamp(user.date)}</h3>
+            <div className="firstName">{user.firstName}</div>
+            <div className="lastName">{user.lastName}</div>
+            <div className="phoneNumber">{user.phoneNumber}</div>
+            <div className="date">{formatTimestamp(user.date)}</div>
             <div className="groupcontainer">
                 {user.groups && user.groups.map(groupIndex => (
                     <div className="groupblock" key={groupIndex}>

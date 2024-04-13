@@ -183,6 +183,7 @@ html{
     font-weight: 500;
     background-color: rgb(0, 211, 176);
     white-space: nowrap;
+    vertical-align: middle;
 }
 
 .previewName2{
@@ -219,6 +220,9 @@ html{
     display: flex;
     justify-content: center;
     align-items: center;
+    position: fixed;
+    top: 40px;
+    right: calc(0% - 150px);
 
 }
 

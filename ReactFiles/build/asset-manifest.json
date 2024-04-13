@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.css": "/static/css/main.3246b598.css",
-    "main.js": "/static/js/main.932e5ef3.js",
+    "main.css": "/static/css/main.5794a1ba.css",
+    "main.js": "/static/js/main.bd0918af.js",
     "static/media/search.png": "/static/media/search.d3ae66df63651b048ff0.png",
     "static/media/AthertonLogoblack-01.png": "/static/media/AthertonLogoblack-01.71776927785eca3ca0a0.png",
     "static/media/google-signin-button.png": "/static/media/google-signin-button.9900628166b5ce867e32.png",
     "static/media/settings.jpg": "/static/media/settings.17ff4dcc14adb532e503.jpg",
     "index.html": "/index.html",
-    "main.3246b598.css.map": "/static/css/main.3246b598.css.map",
-    "main.932e5ef3.js.map": "/static/js/main.932e5ef3.js.map"
+    "main.5794a1ba.css.map": "/static/css/main.5794a1ba.css.map",
+    "main.bd0918af.js.map": "/static/js/main.bd0918af.js.map"
   },
   "entrypoints": [
-    "static/css/main.3246b598.css",
-    "static/js/main.932e5ef3.js"
+    "static/css/main.5794a1ba.css",
+    "static/js/main.bd0918af.js"
   ]
 }

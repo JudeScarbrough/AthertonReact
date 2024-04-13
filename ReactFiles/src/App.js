@@ -5,6 +5,7 @@ import { RenderDashboard } from './dashboard/dashboard.js';
 import { getUserData } from './database/database.js';
 import { GoogleLoginButton } from './setup/login.js';
 import { SettingsForm } from './setup/settings.js';
+import 'normalize.css';
 
 const auth = getAuth();
 export default function App() {

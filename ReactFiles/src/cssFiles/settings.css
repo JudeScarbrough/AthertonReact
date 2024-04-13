@@ -30,17 +30,19 @@ h2{
 }
 
 
-button {
+#confirm {
     width: 100%;
     padding: 10px;
     margin: 10px 0;
     border: none;
     border-radius: 4px;
-    background-color: #4285F4;
     color: white;
     cursor: pointer;
     font-size: 14px;
     font-weight: 500;
+    background-color: #2889f2;
+    padding: 10px 15px;
+    font-size: 16px;
 }
 
 button:hover {
@@ -83,16 +85,7 @@ label {
     box-sizing: border-box; /* Added for consistent box sizing */
 }
 
-button {
-    background-color: #2889f2;
-    color: white;
-    padding: 10px 15px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-    font-weight: 500;
-}
+
 
 button:hover {
     background-color: #004494;

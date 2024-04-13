@@ -140,9 +140,9 @@ function CMAddClient({ groupNames, userData, toggleAddClient, updateUserData, fo
     return (
         <>
             <div className="userblock" id="addClientBlock">
-                <input type="text" className="firstName" placeholder="First Name" value={firstName} onChange={(e) => setFirstName(e.target.value)} />
-                <input type="text" className="lastName" placeholder="Last Name" value={lastName} onChange={(e) => setLastName(e.target.value)} />
-                <input type="text" className="phoneNumber" placeholder="Phone Number" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} />
+                <input type="text" className="firstName addFirstName" placeholder="First Name" value={firstName} onChange={(e) => setFirstName(e.target.value)} />
+                <input type="text" className="lastName addLastName" placeholder="Last Name" value={lastName} onChange={(e) => setLastName(e.target.value)} />
+                <input type="text" className="phoneNumber addPhoneNumber" placeholder="Phone Number" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} />
 
                 <div className="appointment-date-container">
                     <div className="appointment-date-label">Appointment Date</div>
@@ -159,7 +159,7 @@ function CMAddClient({ groupNames, userData, toggleAddClient, updateUserData, fo
                                 ))}
                             </select>
                             <div className="date-separator">/</div>
-                            <input name="year" type="text" className="yearSelector" placeholder="Year" value={date.year} onChange={handleChange} />
+                            <input name="year" type="text" className="yearSelector" id="addUserYear" placeholder="Year" value={date.year} onChange={handleChange} />
                         </div>
                         <div className="time-selectors">
                             <select name="hour" value={date.hour} onChange={handleChange}>
@@ -184,7 +184,7 @@ function CMAddClient({ groupNames, userData, toggleAddClient, updateUserData, fo
     
                     <div className="groupcontainer">
                         <div className="addgroup" onClick={() => setShowGroupPopup(true)}>
-                            {selectedGroupIndexes.length > 0 ? 'Edit Groups' : 'Add Group'}
+                            {selectedGroupIndexes.length > 0 ? 'Edit Groups' : 'Add to Group'}
                         </div>
                         {selectedGroupIndexes.map((index) => (
                             <div key={index} className="groupblock">{groupNames[index]}</div>
