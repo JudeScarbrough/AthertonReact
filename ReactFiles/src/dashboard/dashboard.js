@@ -23,17 +23,41 @@ export function RenderDashboard(props){
       <>
       
         <DashboardFrame userData={props.userData} displayNum={currentPage} navButtonClicked={(i) => handleNavButtonClick(i)}>
-          <DirectContent userData={props.userData} currentPage={currentPage} changeUserDataState={props.changeUserDataState}/>
+          <DirectContent user={props.user} userData={props.userData} currentPage={currentPage} changeUserDataState={props.changeUserDataState}/>
         </DashboardFrame>
   
       </>
     );
-  }
+}
+
+
+
 
 
 
 
 function DirectContent(props){
+
+  const handleSubscription = async () => {
+    const response = await fetch('http://127.0.0.1:4242/create-checkout-session', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email: props.user.email, user_id: props.user.uid })
+    });
+    const session = await response.json();
+    if (response.ok) {
+        window.location.href = session.url;
+    } else {
+        console.error('Failed to create checkout session:', session);
+    }
+};
+
+
+
+
+
   if (props.currentPage == 1){
     return <ClientManager userData={props.userData}></ClientManager>
   } else if (props.currentPage == 2){
@@ -44,5 +68,11 @@ function DirectContent(props){
     return <GroupManager userData={props.userData}></GroupManager>
   } else if (props.currentPage == 5){
     return <SettingsForm userData={props.userData} changeUserDataState={props.changeUserDataState}></SettingsForm>
+  } else {
+    return <>
+  
+    <button onClick={handleSubscription}>Checkout</button>
+  </>
   }
+
 }

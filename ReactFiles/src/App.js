@@ -10,13 +10,15 @@ import 'normalize.css';
 const auth = getAuth();
 export default function App() {
   const [isSignedIn, setSignIn] = useState(null);
+  const [user, setUser] = useState(null); // State to store the user object
   const [userData, setUserData] = useState(null);
   const [userDataFetched, setUserDataFetched] = useState(false);
-  const [loading, setLoading] = useState(true); // New state for loading
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, user => {
       if (user) {
+        setUser(user); // Store the user object in state
         if (!isSignedIn) { 
           setSignIn(true);
         }
@@ -34,11 +36,11 @@ export default function App() {
   };
 
   if (loading) {
-    return <div></div>; // Or any other loading indicator
+    return <div>Loading...</div>; // Added text to indicate loading
   }
 
   if (isSignedIn) {
-    if (userDataFetched === false) {
+    if (!userDataFetched) {
       getUserData().then(data => {
         if (!(JSON.stringify(userData) === JSON.stringify(data))) {
           setUserData(data);
@@ -49,15 +51,10 @@ export default function App() {
 
     if (userData && userData["setup"] === "No" && userDataFetched) {
       return <SettingsForm changeUserDataState={changeUserDataState} userData={userData}></SettingsForm>;
-    } else if (userData && userData["setup"] === "Yes") {
-      return <RenderDashboard userData={userData} changeUserDataState={changeUserDataState}></RenderDashboard>;
+    } else if (userData && userData["setup"] === "Yes" && userDataFetched) {
+      return <RenderDashboard userData={userData} changeUserDataState={changeUserDataState} user={user}></RenderDashboard>;
     }
   } else {
     return <GoogleLoginButton></GoogleLoginButton>;
   }
 }
-
-
-
-
-
