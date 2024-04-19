@@ -1,7 +1,7 @@
 
 
 
-const ipAddress = "1010101010101010"
+const ipAddress = "localhost"
 
 export function getServerIp(){
     return ipAddress

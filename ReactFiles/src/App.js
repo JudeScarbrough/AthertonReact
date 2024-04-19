@@ -6,6 +6,7 @@ import { getUserData } from './database/database.js';
 import { GoogleLoginButton } from './setup/login.js';
 import { SettingsForm } from './setup/settings.js';
 import 'normalize.css';
+import { getServerIp } from './config.js';
 
 const auth = getAuth();
 export default function App() {
@@ -65,7 +66,7 @@ export default function App() {
 
 
     const handleSubscription = async () => {
-      const response = await fetch('http://127.0.0.1:4242/create-checkout-session', {
+      const response = await fetch(('http://' + getServerIp() + ':4242/create-checkout-session'), {
           method: 'POST',
           headers: {
               'Content-Type': 'application/json',
@@ -93,7 +94,7 @@ export default function App() {
   
     try {
 
-      const url = `http://localhost:4242/check-payer-by-email?email=${encodeURIComponent(email)}&user_id=${userId}`;
+      const url = `http://${getServerIp()}:4242/check-payer-by-email?email=${encodeURIComponent(email)}&user_id=${userId}`;
       const response = await fetch(url);
       const data = await response.json();
   

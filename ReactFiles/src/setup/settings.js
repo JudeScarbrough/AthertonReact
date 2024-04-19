@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import '../cssFiles/settings.css';
 import { setData, getUserData } from '../database/database';
+import { getServerIp } from '../config';
 
 export function SettingsForm(props) {
 
@@ -71,7 +72,7 @@ export function SettingsForm(props) {
 
   const handleBillingPortal = async () => {
     try {
-        const response = await fetch('http://127.0.0.1:4242/create-customer-portal-session', {
+        const response = await fetch('http://' + getServerIp() + ':4242/create-customer-portal-session', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

@@ -11,6 +11,8 @@ logging.basicConfig(level=logging.INFO)
 app = Flask(__name__)
 CORS(app)
 
+appUrl = "application.athertonmarketing.com"
+
 # Initialize Stripe and Firebase
 stripe.api_key = 'sk_test_51P4q7Q03wq2Gsl4MTB58bOnclwVEEHDl8e54tUo6OnEoUhGwcvm13fEXSbAZd2wvVPZLHdu9X9W0qmS8KtD6cQmb00bfiDuw7J'
 cred = credentials.Certificate('fb_key.json')
@@ -32,8 +34,8 @@ def create_checkout_session():
                 'quantity': 1,
             }],
             customer_email=user_email,
-            success_url='http://localhost:3000/success',
-            cancel_url='http://localhost:3000/cancel',
+            success_url=f'http://{appUrl}',
+            cancel_url=f'http://{appUrl}',
         )
 
 
@@ -102,7 +104,7 @@ def create_customer_portal_session():
         # Create a session for the customer portal
         session = stripe.billing_portal.Session.create(
             customer=stripe_customer_id,
-            return_url='http://localhost:3000/settings',
+            return_url=f'http://{appUrl}',
         )
 
         return jsonify({'url': session.url})
