@@ -3,6 +3,10 @@ import '../cssFiles/settings.css';
 import { setData, getUserData } from '../database/database';
 
 export function SettingsForm(props) {
+
+
+  let user = props.user
+
   const [companyName, setCompanyName] = useState(
     props.userData && props.userData["settings"] && props.userData["settings"][0] ? props.userData["settings"][0] : ''
   );
@@ -25,9 +29,16 @@ export function SettingsForm(props) {
 
   const handleSubmit = () => {
     if (validateInputs()) {
-      submitData(companyName, customerPhone, props.changeUserDataState, setShowPopup, props.finishedInitSettings);
+      submitData(
+        companyName,
+        customerPhone,
+        props.changeUserDataState,
+        setShowPopup,
+        props.finishedInitSettings && props.finishedInitSettings
+      );
     }
   };
+  
 
   function PopupMessage() {
     return (
@@ -50,6 +61,49 @@ export function SettingsForm(props) {
       </div>
     );
   }
+
+
+
+
+
+
+
+
+  const handleBillingPortal = async () => {
+    try {
+        const response = await fetch('http://127.0.0.1:4242/create-customer-portal-session', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ user_id: user.uid })
+        });
+        const responseBody = await response.text();  // Get response as text
+        console.log("Server response:", responseBody);  // Log the response body
+
+        const portalSession = JSON.parse(responseBody);  // Parse JSON only after logging
+        if (response.ok) {
+            window.location.href = portalSession.url;
+        } else {
+            console.error('Failed to open billing portal:', portalSession);
+        }
+    } catch (error) {
+        console.error('Error connecting to the server:', error);
+    }
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   return (
     <div className="login-container" style={{ position: 'relative' }}>
@@ -80,6 +134,8 @@ export function SettingsForm(props) {
       /><br /><br />
 
       <button onClick={handleSubmit} type="submit" id="confirm">Confirm</button>
+
+      <button onClick={handleBillingPortal}>Manage Billing</button>
     </div>
   );
 }
@@ -91,9 +147,11 @@ function submitData(companyName, customerPhone, changeUserDataState, setShowPopu
     data["setup"] = "Yes";
     data["settings"] = [companyName, customerPhone];
     setData(data);
-    finishedInitSettings()
 
-
+    // Call finishedInitSettings only if it is passed in
+    if (finishedInitSettings) {
+      finishedInitSettings();
+    }
 
     changeUserDataState(data);
     setShowPopup(true);

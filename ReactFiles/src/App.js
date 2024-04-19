@@ -100,7 +100,7 @@ export default function App() {
       
       if (response.ok) {
         if (data.is_paying) {
-          console.log('Paid user');
+          // user is paid
           userData.paid = "Yes"
         } else {
           handleSubscription()
@@ -159,16 +159,14 @@ export default function App() {
   
 
   if (userData) {
-    if ('paid' in userData) {
-      // bypass
-    } else if (userData.setup == "Yes" && userData.paid == "No") {
-      handleUserPaymentStatus();
+      if ('paid' in userData) {
+        if (userData.setup == "Yes" && userData.paid == "No") {
+        console.log("handle payment status")
+        handleUserPaymentStatus();
+      }
     }
-  } else {
-    // Handle the case where userData is null
-    console.log('userData is null');
   }
-  
+
 
 
 

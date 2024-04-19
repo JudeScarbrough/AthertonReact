@@ -51,7 +51,7 @@ function DirectContent(props){
   } else if (props.currentPage == 4){
     return <GroupManager userData={props.userData}></GroupManager>
   } else if (props.currentPage == 5){
-    return <SettingsForm userData={props.userData} changeUserDataState={props.changeUserDataState}></SettingsForm>
+    return <SettingsForm userData={props.userData} changeUserDataState={props.changeUserDataState} user={props.user}></SettingsForm>
   } else {
     return <>
   

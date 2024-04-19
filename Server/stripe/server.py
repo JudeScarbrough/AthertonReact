@@ -43,6 +43,13 @@ def create_checkout_session():
         return jsonify(error=str(e)), 403
 
 
+from flask import Flask, request, jsonify
+import stripe
+from firebase_admin import db
+import logging
+
+
+
 @app.route('/check-payer-by-email', methods=['GET'])
 def check_payer_by_email():
     email = request.args.get('email', '')
@@ -60,12 +67,16 @@ def check_payer_by_email():
 
         # Loop through found customers to check for active subscriptions
         for customer in customers.data:
+            # Set the Stripe customer ID in the database
+            stripe_ref = db.reference(f'/users/{user_id}/stripe_id')
+            stripe_ref.set(customer.id)
+
             subscriptions = stripe.Subscription.list(customer=customer.id, status='active')
             if subscriptions.data:
-                # If any active subscriptions are found, return True
+                # If any active subscriptions are found, update the payment status and return True
                 ref = db.reference(f'/users/{user_id}/paid')
                 ref.set("Yes")
-                return jsonify({'message': 'Customer is a paying subscriber', 'is_paying': True})
+                return jsonify({'message': 'Customer is a paying subscriber', 'is_paying': True, 'stripe_id': customer.id})
 
         # If no active subscriptions found for any customers
         return jsonify({'message': 'Customer exists but has no active subscriptions', 'is_paying': False})
@@ -74,7 +85,30 @@ def check_payer_by_email():
         return jsonify({'error': str(e)}), 404
 
 
+@app.route('/create-customer-portal-session', methods=['POST'])
+def create_customer_portal_session():
+    try:
+        data = request.get_json()
+        user_id = data.get('user_id', '')
 
+        # Retrieve Stripe customer ID from your database
+        ref = db.reference(f'/users/{user_id}/stripe_id')
+        stripe_customer_id = ref.get()
+
+        if not stripe_customer_id:
+            logging.error(f'Stripe customer ID not found for user {user_id}')
+            return jsonify({'error': 'Stripe customer ID not found'}), 404
+
+        # Create a session for the customer portal
+        session = stripe.billing_portal.Session.create(
+            customer=stripe_customer_id,
+            return_url='http://localhost:3000/settings',
+        )
+
+        return jsonify({'url': session.url})
+    except Exception as e:
+        logging.error(f'Error creating customer portal session: {str(e)}')
+        return jsonify({'error': str(e)}), 500
 
 
 
