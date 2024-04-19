@@ -34,54 +34,49 @@ def create_checkout_session():
             customer_email=user_email,
             success_url='http://localhost:3000/success',
             cancel_url='http://localhost:3000/cancel',
-            client_reference_id=user_id,
         )
 
-        ref = db.reference('/users/' + user_id)
-        ref.child(user_email.replace('.', ',')).set({
-            'stripe_session_id': checkout_session['id'],
-            'status': 'initiated'
-        })
+
         return jsonify({'sessionId': checkout_session['id'], 'url': checkout_session.url})
     except Exception as e:
         logging.error(f'Error creating checkout session: {str(e)}')
         return jsonify(error=str(e)), 403
 
-@app.route('/webhook', methods=['POST'])
-def stripe_webhook():
 
-
-    print("webhook is FUCKING BEING CALLED")
-    payload = request.get_data(as_text=True)
-    sig_header = request.headers.get('Stripe-Signature')
-    webhook_secret = 'whsec_ZH2laZoBbdbKhP2MJQrqlgtRnfLzYAOV'
+@app.route('/check-payer-by-email', methods=['GET'])
+def check_payer_by_email():
+    email = request.args.get('email', '')
+    user_id = request.args.get('user_id', '')
+    if not email:
+        return jsonify({'error': 'Email is required'}), 400
 
     try:
-        event = stripe.Webhook.construct_event(
-            payload, sig_header, webhook_secret
-        )
-    except ValueError as e:
-        logging.error('Invalid payload: ' + str(e))
-        return 'Invalid payload', 400
-    except stripe.error.SignatureVerificationError as e:
-        logging.error('Invalid signature: ' + str(e))
-        return 'Invalid signature', 400
+        # Search for customers in Stripe by email
+        customers = stripe.Customer.list(email=email)
+        
+        # Check if any customer exists with that email
+        if not customers.data:
+            return jsonify({'message': 'No customer found with this email', 'is_paying': False})
 
-    # Handle the event
-    if event['type'] == 'checkout.session.completed':
-        session = event['data']['object']
-        customer_email = session['customer_email']
-        user_id = session['client_reference_id']
-        try:
-            ref = db.reference('/users/' + user_id)
-            ref.child(customer_email.replace('.', ',')).update({
-                'status': 'paid'
-            })
-        except Exception as e:
-            logging.error(f'Failed to update Firebase: {str(e)}')
-            return jsonify(error=str(e)), 500
+        # Loop through found customers to check for active subscriptions
+        for customer in customers.data:
+            subscriptions = stripe.Subscription.list(customer=customer.id, status='active')
+            if subscriptions.data:
+                # If any active subscriptions are found, return True
+                ref = db.reference(f'/users/{user_id}/paid')
+                ref.set("Yes")
+                return jsonify({'message': 'Customer is a paying subscriber', 'is_paying': True})
 
-    return jsonify(success=True), 200
+        # If no active subscriptions found for any customers
+        return jsonify({'message': 'Customer exists but has no active subscriptions', 'is_paying': False})
+    except Exception as e:
+        logging.error(f'Error retrieving customer information: {str(e)}')
+        return jsonify({'error': str(e)}), 404
+
+
+
+
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=4242)

@@ -6,22 +6,17 @@ export function SettingsForm(props) {
   const [companyName, setCompanyName] = useState(
     props.userData && props.userData["settings"] && props.userData["settings"][0] ? props.userData["settings"][0] : ''
   );
-  const [customerEmail, setCustomerEmail] = useState(
-    props.userData && props.userData["settings"] && props.userData["settings"][1] ? props.userData["settings"][1] : ''
-  );
   const [customerPhone, setCustomerPhone] = useState(
-    props.userData && props.userData["settings"] && props.userData["settings"][2] ? props.userData["settings"][2] : ''
+    props.userData && props.userData["settings"] && props.userData["settings"][1] ? props.userData["settings"][1] : ''
   );
 
   // State to control popup visibility
   const [showPopup, setShowPopup] = useState(false);
 
   const validateInputs = () => {
-    const emailRegex = /\S+@\S+\.\S+/;
     const phoneRegex = /^[0-9]{10}$/;
 
     if (!companyName.trim()) alert("Company name is required.");
-    else if (!emailRegex.test(customerEmail)) alert("Please enter a valid email address.");
     else if (!phoneRegex.test(customerPhone)) alert("Please enter a valid phone number.");
     else return true;
 
@@ -30,7 +25,7 @@ export function SettingsForm(props) {
 
   const handleSubmit = () => {
     if (validateInputs()) {
-      submitData(companyName, customerEmail, customerPhone, props.changeUserDataState, setShowPopup);
+      submitData(companyName, customerPhone, props.changeUserDataState, setShowPopup, props.finishedInitSettings);
     }
   };
 
@@ -73,17 +68,6 @@ export function SettingsForm(props) {
         onChange={e => setCompanyName(e.target.value)}
       /><br /><br />
 
-      <label htmlFor="customerEmail">Customer Contact Email:</label>
-      <input
-        type="email"
-        id="customerEmail"
-        name="customerEmail"
-        placeholder="Customer Contact Email"
-        required
-        value={customerEmail}
-        onChange={e => setCustomerEmail(e.target.value)}
-      /><br /><br />
-
       <label htmlFor="customerPhone">Customer Contact Phone Number:</label>
       <input
         type="tel"
@@ -100,13 +84,17 @@ export function SettingsForm(props) {
   );
 }
 
-function submitData(companyName, customerEmail, customerPhone, changeUserDataState, setShowPopup) {
-  console.log('Submitting data:', { companyName, customerEmail, customerPhone });
+function submitData(companyName, customerPhone, changeUserDataState, setShowPopup, finishedInitSettings) {
+  console.log('Submitting data:', { companyName, customerPhone });
 
   getUserData().then(data => {
     data["setup"] = "Yes";
-    data["settings"] = [companyName, customerEmail, customerPhone];
+    data["settings"] = [companyName, customerPhone];
     setData(data);
+    finishedInitSettings()
+
+
+
     changeUserDataState(data);
     setShowPopup(true);
     setTimeout(() => setShowPopup(false), 5000);

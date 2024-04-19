@@ -38,22 +38,6 @@ export function RenderDashboard(props){
 
 function DirectContent(props){
 
-  const handleSubscription = async () => {
-    const response = await fetch('http://127.0.0.1:4242/create-checkout-session', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email: props.user.email, user_id: props.user.uid })
-    });
-    const session = await response.json();
-    if (response.ok) {
-        window.location.href = session.url;
-    } else {
-        console.error('Failed to create checkout session:', session);
-    }
-};
-
 
 
 
@@ -71,7 +55,7 @@ function DirectContent(props){
   } else {
     return <>
   
-    <button onClick={handleSubscription}>Checkout</button>
+  
   </>
   }
 
