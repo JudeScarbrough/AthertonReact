@@ -43,6 +43,7 @@ h2{
     background-color: #2889f2;
     padding: 10px 15px;
     font-size: 16px;
+    font-weight: bold;
 }
 
 button:hover {
@@ -89,4 +90,25 @@ label {
 
 button:hover {
     background-color: #004494;
+}
+
+
+
+
+#billingButton{
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    position: fixed; /* Fixed positioning relative to the viewport */
+    top: 25px; /* 10px from the top of the viewport */
+    right: 30px; /* 10px from the right of the viewport */
+    padding: 10px 20px; /* Padding around the text */
+    background-color: white; /* Blue background */
+    color: black; /* White text */
+    border: none; /* No border */
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 17px;
+    font-weight: bold;
+    text-align: center;
+    width: 175px;
 }

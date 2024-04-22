@@ -69,44 +69,9 @@ export function SettingsForm(props) {
 
 
 
+  return (<>
 
-  const handleBillingPortal = async () => {
-    try {
-        const response = await fetch('http://' + getServerIp() + ':4242/create-customer-portal-session', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ user_id: user.uid })
-        });
-        const responseBody = await response.text();  // Get response as text
-        console.log("Server response:", responseBody);  // Log the response body
-
-        const portalSession = JSON.parse(responseBody);  // Parse JSON only after logging
-        if (response.ok) {
-            window.location.href = portalSession.url;
-        } else {
-            console.error('Failed to open billing portal:', portalSession);
-        }
-    } catch (error) {
-        console.error('Error connecting to the server:', error);
-    }
-};
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  return (
+    <Billing finishedInitSettings={props.finishedInitSettings} user={props.user}></Billing>
     <div className="login-container" style={{ position: 'relative' }}>
       {showPopup && <PopupMessage />}
 
@@ -136,10 +101,66 @@ export function SettingsForm(props) {
 
       <button onClick={handleSubmit} type="submit" id="confirm">Confirm</button>
 
-      <button onClick={handleBillingPortal}>Manage Billing</button>
+      
     </div>
+
+
+    </>
   );
 }
+
+
+
+function Billing(props){
+
+  let user = props.user
+  const handleBillingPortal = async () => {
+    try {
+        const response = await fetch('https://' + getServerIp() + '/create-customer-portal-session', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ user_id: user.uid })
+        });
+        const responseBody = await response.text();  // Get response as text
+        console.log("Server response:", responseBody);  // Log the response body
+
+        const portalSession = JSON.parse(responseBody);  // Parse JSON only after logging
+        if (response.ok) {
+            window.location.href = portalSession.url;
+        } else {
+            console.error('Failed to open billing portal:', portalSession);
+        }
+    } catch (error) {
+        console.error('Error connecting to the server:', error);
+    }
+};
+
+
+if (props.finishedInitSettings){
+  console.log("agh fuck")
+  return <></>
+} else {
+  return <button onClick={handleBillingPortal} id="billingButton">Manage Billing</button>
+}
+
+ 
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 function submitData(companyName, customerPhone, changeUserDataState, setShowPopup, finishedInitSettings) {
   console.log('Submitting data:', { companyName, customerPhone });

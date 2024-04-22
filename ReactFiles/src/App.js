@@ -6,10 +6,11 @@ import { getUserData } from './database/database.js';
 import { GoogleLoginButton } from './setup/login.js';
 import { SettingsForm } from './setup/settings.js';
 import 'normalize.css';
-import { getServerIp } from './config.js';
+import { getServerIp, getReturnUrl } from './config.js';
+import { get } from 'firebase/database';
 
 const auth = getAuth();
-export default function App() {
+export default function App(props) {
   const [isSignedIn, setSignIn] = useState(null);
   const [user, setUser] = useState(null); 
   const [userData, setUserData] = useState(null);
@@ -66,12 +67,12 @@ export default function App() {
 
 
     const handleSubscription = async () => {
-      const response = await fetch(('http://' + getServerIp() + ':4242/create-checkout-session'), {
+      const response = await fetch(('https://' + getServerIp() + '/create-checkout-session'), {
           method: 'POST',
           headers: {
               'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ email: user.email, user_id: user.uid })
+          body: JSON.stringify({ email: user.email, user_id: user.uid, appUrl: getReturnUrl() })
       });
       const session = await response.json();
       if (response.ok) {
@@ -93,8 +94,9 @@ export default function App() {
     }
   
     try {
+      console.log("trying")
 
-      const url = `http://${getServerIp()}:4242/check-payer-by-email?email=${encodeURIComponent(email)}&user_id=${userId}`;
+      const url = `https://${getServerIp()}/check-payer-by-email?email=${encodeURIComponent(email)}&user_id=${userId}`;
       const response = await fetch(url);
       const data = await response.json();
   
@@ -120,6 +122,7 @@ export default function App() {
 
   
   const handleUserPaymentStatus = async () => {
+    console.log("handle payment status")
     if (!userData) {
       console.log('User data is not available yet.');
       return;
@@ -129,10 +132,18 @@ export default function App() {
     const currentTime = new Date().getTime();
   
     // Check if it has been less than an hour since the last check
-    if (lastCheckedTime && (currentTime - lastCheckedTime < 1)) {  // Fixed time comparison
-      console.log('Checked less than an hour ago.');
-      return;
+    if ('paid' in userData) {
+      if (userData.setup == "Yes" && userData.paid == "Yes") {
+        if (lastCheckedTime && (currentTime - lastCheckedTime < 1)) {  // Fixed time comparison
+          console.log('Checked less than an hour ago.');
+          return;
+        }
+
+
+      
     }
+  }
+    
   
     // Update the last checked time
     localStorage.setItem('lastPaymentCheckTime', currentTime);
@@ -164,6 +175,9 @@ export default function App() {
         if (userData.setup == "Yes" && userData.paid == "No") {
         console.log("handle payment status")
         handleUserPaymentStatus();
+
+
+        return <></>
       }
     }
   }
@@ -202,7 +216,7 @@ if (settingsDone){
     if (userData && userData["setup"] === "No" && userDataFetched) {
       return <SettingsForm changeUserDataState={setUserData} userData={userData} finishedInitSettings={finishedInitSettings}/>;
     } else if (userData && userData["setup"] === "Yes" && userDataFetched) {
-      return <RenderDashboard userData={userData} changeUserDataState={setUserData} user={user} />;
+      return <RenderDashboard userData={userData} changeUserDataState={setUserData} user={user} route={props.route}/>;
     }
   } else {
     return <GoogleLoginButton />;
