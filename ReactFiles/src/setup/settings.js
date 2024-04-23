@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import '../cssFiles/settings.css';
 import { setData, getUserData } from '../database/database';
-import { getServerIp } from '../config';
+import { getReturnUrl, getServerIp } from '../config';
 
 export function SettingsForm(props) {
 
@@ -116,21 +116,22 @@ function Billing(props){
   let user = props.user
   const handleBillingPortal = async () => {
     try {
-        const response = await fetch('https://' + getServerIp() + '/create-customer-portal-session', {
+        const response = await fetch(getServerIp(), {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ user_id: user.uid })
+            body: JSON.stringify({ call: "billing-session", user_id: user.uid, appUrl: getReturnUrl() })
         });
-        const responseBody = await response.text();  // Get response as text
+        const responseBody = await response.json();  // Get response as text
         console.log("Server response:", responseBody);  // Log the response body
 
-        const portalSession = JSON.parse(responseBody);  // Parse JSON only after logging
+        
         if (response.ok) {
-            window.location.href = portalSession.url;
+          console.log("relo url: ", response.url)
+            //window.location.href = portalSession.url;
         } else {
-            console.error('Failed to open billing portal:', portalSession);
+            console.error('Failed to open billing portal:', response);
         }
     } catch (error) {
         console.error('Error connecting to the server:', error);

@@ -66,24 +66,92 @@ export default function App(props) {
 
 
 
-    const handleSubscription = async () => {
-      const response = await fetch(('https://' + getServerIp() + '/create-checkout-session'), {
-          method: 'POST',
-          headers: {
-              'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ email: user.email, user_id: user.uid, appUrl: getReturnUrl() })
+  const handleSubscription = async () => {
+    // Construct the URL securely
+    const url = getServerIp();
+    let email = user.email
+    let userId = user.uid
+    const data = {
+      call: "create-checkout-session",
+      appUrl: getReturnUrl(),
+      email: email,
+      user_id: userId,
+    };
+  
+    try {
+      const response = await fetch(url, {
+        method: 'POST', // or 'PUT'
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
       });
-      const session = await response.json();
+
+      const session = await response.json()
+  
       if (response.ok) {
-          window.location.href = session.url;
+        window.location.href = session.url;
       } else {
-          console.error('Failed to create checkout session:', session);
+        console.error("error in creating checkout session")
       }
-  };
+  
+    } catch (error) {
+      console.error('Error creating checkout session:', error);
+    }
+};
+
+
   
   
   const checkPayerByEmail = async () => {
+
+
+    // Construct the URL securely
+    const url = getServerIp();
+    let email = user.email
+    let userId = user.uid
+    const data = {
+      call: "check-payer-by-email",
+      email: email,
+      user_id: userId,
+
+    };
+  
+    try {
+      const response = await fetch(url, {
+        method: 'POST', // or 'PUT'
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+  
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+  
+      const result = await response.json();
+
+      if (result.is_paying == true){
+        userData.paid = "Yes"
+        console.log("customer is paying")
+      } else {
+        console.log("customer not paying")
+        handleSubscription()
+      }
+    } catch (error) {
+      console.error('Error Check Payer', error);
+    }
+
+
+
+
+
+
+
+
+
+    /*
   
     let email = user.email
     let userId = user.uid
@@ -105,7 +173,9 @@ export default function App(props) {
         if (data.is_paying) {
           // user is paid
           userData.paid = "Yes"
+          console.log("paying user")
         } else {
+          console.log("user not paying")
           handleSubscription()
           setSettingsDone(false)
         }
@@ -114,7 +184,7 @@ export default function App(props) {
       }
     } catch (error) {
       console.error('Failed to fetch payer status:', error);
-    }
+    }*/
   };
 
  
