@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import React, { useState } from 'react';
 import { DashboardFrame } from './dashboard_frame';
 import { ClientManager } from './subApps/cm/cm.js';
 import { DirectMessage } from './subApps/dm.js';
@@ -9,26 +8,8 @@ import { SettingsForm } from '../setup/settings.js';
 
 export function RenderDashboard(props) {
     const [currentPage, setPage] = useState(0);
-    const navigate = useNavigate();
-    const { route } = useParams();  // Destructure route from useParams
-
-    const routeToPage = {
-        'clientmanager': 1,
-        'groupmessage': 2,
-        'appointmentmanager': 3,
-        'clientgroups': 4,
-        'settings': 5
-    };
-
-    useEffect(() => {
-        // Update the page state based on the URL route
-        const page = route ? routeToPage[route] : 0;
-        setPage(page);
-    }, [route]); // React to changes in the route parameter
 
     function handleNavButtonClick(i) {
-        const routeName = Object.keys(routeToPage).find(key => routeToPage[key] === i);
-        navigate(`/${routeName || ''}`, { replace: true });
         setPage(i);
     }
 

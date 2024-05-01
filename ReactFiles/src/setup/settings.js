@@ -31,6 +31,7 @@ export function SettingsForm(props) {
   const handleSubmit = () => {
     if (validateInputs()) {
       submitData(
+        props.subUrl,
         companyName,
         customerPhone,
         props.changeUserDataState,
@@ -71,7 +72,7 @@ export function SettingsForm(props) {
 
   return (<>
 
-    <Billing finishedInitSettings={props.finishedInitSettings} user={props.user}></Billing>
+    {props.finishedInitSettings ? null : <Billing user={props.user} />}
     <div className="login-container" style={{ position: 'relative' }}>
       {showPopup && <PopupMessage />}
 
@@ -111,45 +112,94 @@ export function SettingsForm(props) {
 
 
 
-function Billing(props){
 
-  let user = props.user
+
+function Billing(props) {
+  const [loading, setLoading] = useState(false);
+  const [loadingProgress, setLoadingProgress] = useState(0);
+
   const handleBillingPortal = async () => {
+    setLoading(true);
+    const timer = setInterval(() => {
+      setLoadingProgress((prevProgress) => (prevProgress >= 100 ? 100 : prevProgress + 10));
+    }, 100);  // Adjust the interval and increment as needed for your use case
+
     try {
-        const response = await fetch(getServerIp(), {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ call: "billing-session", user_id: user.uid, appUrl: getReturnUrl() })
-        });
-        const responseBody = await response.json();  // Get response as text
-        console.log("Server response:", responseBody);  // Log the response body
-
-        
-        if (response.ok) {
-          console.log("relo url: ", response.url)
-            //window.location.href = portalSession.url;
-        } else {
-            console.error('Failed to open billing portal:', response);
-        }
+      const response = await fetch(getServerIp(), {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ call: "billing-session", user_id: props.user.uid, appUrl: getReturnUrl() })
+      });
+      const responseBody = await response.json();  // Get response as JSON
+      console.log("Server response:", responseBody);  // Log the response body
+      
+      clearInterval(timer);
+      if (response.ok) {
+        window.location.href = responseBody.url; // Redirect to the billing portal URL
+      } else {
+        console.error('Failed to open billing portal:', responseBody.error);
+        setLoading(false);
+        setLoadingProgress(0);
+      }
     } catch (error) {
-        console.error('Error connecting to the server:', error);
+      console.error('Error connecting to the server:', error);
+      setLoading(false);
+      setLoadingProgress(0);
+      clearInterval(timer);
     }
-};
+  };
 
+  const buttonStyle = {
+    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.2)',
+    position: 'fixed',
+    top: '25px',
+    right: '30px',
+    padding: '10px 20px',
+    backgroundColor: 'white',
+    color: 'black',
+    border: 'none',
+    borderRadius: '5px',
+    cursor: 'pointer',
+    fontFamily: 'Arial, Helvetica, sans-serif',
+    fontSize: '17px',
+    fontWeight: 'bold',
+    textAlign: 'center',
+    width: '175px'
 
-if (props.finishedInitSettings){
-  console.log("agh fuck")
-  return <></>
-} else {
-  return <button onClick={handleBillingPortal} id="billingButton">Manage Billing</button>
+  };
+
+  const loadingBarStyle = {
+    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.2)',
+    position: 'fixed',
+    top: '25px',
+    right: '30px',
+    padding: '10px 20px',
+    color: 'black',
+    border: 'none',
+    borderRadius: '5px',
+    cursor: 'pointer',
+    fontFamily: 'Arial, Helvetica, sans-serif',
+    fontSize: '17px',
+    fontWeight: 'bold',
+    textAlign: 'center',
+    width: '175px',
+    backgroundColor: '#4275f5',  // Light blue color
+    transitionDuration: '4s',
+  };
+
+  return (
+    <button 
+      onClick={!loading ? handleBillingPortal : null} 
+      style={loading ? loadingBarStyle : buttonStyle} 
+      id="billingButton"
+    >
+    Manage Billing
+    </button>
+  );
 }
 
- 
-
-
-}
 
 
 
@@ -163,7 +213,10 @@ if (props.finishedInitSettings){
 
 
 
-function submitData(companyName, customerPhone, changeUserDataState, setShowPopup, finishedInitSettings) {
+
+
+
+function submitData(subUrl, companyName, customerPhone, changeUserDataState, setShowPopup, finishedInitSettings) {
   console.log('Submitting data:', { companyName, customerPhone });
 
   getUserData().then(data => {
@@ -173,6 +226,7 @@ function submitData(companyName, customerPhone, changeUserDataState, setShowPopu
 
     // Call finishedInitSettings only if it is passed in
     if (finishedInitSettings) {
+      window.location.href = subUrl
       finishedInitSettings();
     }
 

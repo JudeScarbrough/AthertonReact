@@ -10,13 +10,16 @@ import { getServerIp, getReturnUrl } from './config.js';
 import { get } from 'firebase/database';
 
 const auth = getAuth();
+
+
 export default function App(props) {
   const [isSignedIn, setSignIn] = useState(null);
   const [user, setUser] = useState(null); 
   const [userData, setUserData] = useState(null);
   const [userDataFetched, setUserDataFetched] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [settingsDone, setSettingsDone] = useState(false)
+  const [settingsDone, setSettingsDone] = useState(false);
+  const [subUrl, setSubUrl] = useState("");
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, user => {
@@ -51,6 +54,41 @@ export default function App(props) {
     });
   };
 
+
+
+  const firstSubscription = async () => {
+    // Construct the URL securely
+    const url = getServerIp();
+    let email = user.email
+    let userId = user.uid
+    const data = {
+      call: "create-checkout-session",
+      appUrl: getReturnUrl(),
+      email: email,
+      user_id: userId,
+    };
+  
+    try {
+      const response = await fetch(url, {
+        method: 'POST', // or 'PUT'
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+
+      const session = await response.json()
+  
+      if (response.ok) {
+        return session.url;
+      } else {
+        console.error("error in creating checkout session")
+      }
+  
+    } catch (error) {
+      console.error('Error creating checkout session:', error);
+    }
+};
 
 
 
@@ -133,6 +171,7 @@ export default function App(props) {
       const result = await response.json();
 
       if (result.is_paying == true){
+        
         userData.paid = "Yes"
         console.log("customer is paying")
       } else {
@@ -150,41 +189,6 @@ export default function App(props) {
 
 
 
-
-    /*
-  
-    let email = user.email
-    let userId = user.uid
-  
-    if (!email || !userId) {
-      console.log('Email and User ID are required');
-      return; 
-    }
-  
-    try {
-      console.log("trying")
-
-      const url = `https://${getServerIp()}/check-payer-by-email?email=${encodeURIComponent(email)}&user_id=${userId}`;
-      const response = await fetch(url);
-      const data = await response.json();
-  
-      
-      if (response.ok) {
-        if (data.is_paying) {
-          // user is paid
-          userData.paid = "Yes"
-          console.log("paying user")
-        } else {
-          console.log("user not paying")
-          handleSubscription()
-          setSettingsDone(false)
-        }
-      } else {
-        console.error(data.error || 'Error occurred while checking payer status');
-      }
-    } catch (error) {
-      console.error('Failed to fetch payer status:', error);
-    }*/
   };
 
  
@@ -217,7 +221,6 @@ export default function App(props) {
   
     // Update the last checked time
     localStorage.setItem('lastPaymentCheckTime', currentTime);
-  
     await checkPayerByEmail();  // Always check payer status
     await fetchUserData();  // Always refresh user data
   
@@ -284,9 +287,17 @@ if (settingsDone){
 
   if (isSignedIn) {
     if (userData && userData["setup"] === "No" && userDataFetched) {
-      return <SettingsForm changeUserDataState={setUserData} userData={userData} finishedInitSettings={finishedInitSettings}/>;
+      if (subUrl == ""){
+        (async () => {
+            const url = await firstSubscription();
+            setSubUrl(url);
+        })();
+    }
+
+      return <SettingsForm changeUserDataState={setUserData} userData={userData} finishedInitSettings={finishedInitSettings} subUrl={subUrl}/>;
     } else if (userData && userData["setup"] === "Yes" && userDataFetched) {
-      return <RenderDashboard userData={userData} changeUserDataState={setUserData} user={user} route={props.route}/>;
+      
+      return <RenderDashboard userData={userData} changeUserDataState={setUserData} user={user}/>;
     }
   } else {
     return <GoogleLoginButton />;
